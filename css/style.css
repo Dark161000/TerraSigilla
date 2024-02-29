@@ -1,0 +1,114 @@
+:root {
+    all: unset;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/******************HEADER*********************/
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 10px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: #003815;
+    color: #FDFDFD;
+}
+
+/******************WRAPPER********************/
+[id="pageWrapper"] {
+    display: grid;
+    padding: 0;
+    grid-template-columns: 200px 1fr;
+}
+
+[id="mapResults"] {
+    display: flex;
+    flex-direction: column;
+}
+
+/****************USER INPUT*******************/
+[id="userInput"] {
+    background: #FDFDFD;
+    box-shadow: -4px 0px 20px 0px black;
+    z-index: 1;
+}
+[id="userInput"] div {
+    padding: 5px 10px;
+}
+[id="userInput"] fieldset {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 10px;
+}
+[id="city"] option:not(:first-child) {
+    display: none;
+}
+[id="searchBtn"] {
+    background: #66BE00;
+    border: none;
+    border-radius: 0.5rem;
+    height: 50px;
+    font-size: 1rem;
+    color: #FDFDFD;
+    font-weight: bolder;
+}
+[id="searchBtn"]:hover {
+    background: #008405;
+}
+[id="searchBtn"]:active {
+    background: #008405;
+    box-shadow: inset 8px 8px 20px -2px black;
+}
+
+/*****************MAP VIEW********************/
+[id="map"] {
+    width: 100%;
+}
+
+/*****************RESULTS*********************/
+[id="results"] {
+    overflow: auto;
+}
+[id="results"] table {
+    border-collapse: collapse;
+}
+[id="results"] :is(table td, table th) {
+    padding: 2px 5px;
+    border: 1px solid #DBD0CB;
+    min-width: 50px;
+}
+[id="results"] thead tr {
+    background:#008405;
+    color: #FDFDFD;
+}
+[id="results"] tbody tr:nth-child(odd) {
+    background:#FDFDFD;
+}
+[id="results"] tbody tr:nth-child(even) {
+    background:#F4F1F0;
+}
+[id="results"] tbody tr:hover {
+    background:#DBD0CB;
+    cursor: pointer;
+}
+/******************FOOTER*********************/
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    background: #110101;
+    color: #FDFDFD;
+}
