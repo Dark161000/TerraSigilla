@@ -4,7 +4,7 @@
   "description": "App to find out closed roads.",
   "main": "main.js",
   "scripts": {
-    "dev": ".electron"
+    "dev": "electron ."
   },
   "repository": {
     "type": "git",
@@ -26,5 +26,8 @@
   "homepage": "https://github.com/Dark161000/TerraSigilla#readme",
   "devDependencies": {
     "electron": "^29.1.0"
+  },
+  "dependencies": {
+    "puppeteer": "^22.3.0"
   }
 }
