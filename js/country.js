@@ -2,7 +2,7 @@ const countries = {
     Austria: {
         zoom: 7,
         cities: {
-            Salzburg: {zoom: 12,},
+            Vienna: {zoom: 11,},
         },
     },
     Italy: {

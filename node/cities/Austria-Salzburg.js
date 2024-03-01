@@ -12,7 +12,7 @@ async function getData() {
         console.log('Created!');
     });
 
-    const mapOfViennaURL = 'https://m.wien.gv.at/stadtplan/#base=karte&overlay=adressen&zoom=11&layer=baustelle%2Ceinbahn&lon=16.4867&lat=483491';
+    const mapOfViennaURL = 'https://m.wien.gv.at/stadtplan/#base=karte&overlay=adressen&zoom=11&layer=baustelle%2Ceinbahn&lon=16.3816&lat=48.2079';
 
     const browser = await puppeteer.launch({headless: false, defaultViewport: {width:1920, height:1080}});
     const page = await browser.newPage();
