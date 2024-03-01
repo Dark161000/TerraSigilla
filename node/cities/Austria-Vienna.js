@@ -83,7 +83,20 @@ function delay(time) {
 }*/
 
 async function getData() {
-    let geoShape = '';
+    let geoPoint = '';
+    let geoLine = '';
+    http.get("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BAUSTELLENPKTOGD&srsName=EPSG:4326&outputFormat=text/javascript&format_options=callback:wienmapBAUSTELLENPKTOGD.callback&charset=UTF-8&EXCEPTIONS=text/javascript", (response) => {
+        let data = '';
+
+        response.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        response.on('end', () => {
+            geoPoint = data;
+        });
+    });
+
     http.get("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BAUSTELLENLINOGD&srsName=EPSG:4326&outputFormat=text/javascript&format_options=callback:wienmapBAUSTELLENLIN2PKTOGD.callback&charset=UTF-8&EXCEPTIONS=text/javascript", (response) => {
         let data = '';
 
@@ -92,11 +105,11 @@ async function getData() {
         });
 
         response.on('end', () => {
-            geoShape = data;
+            geoLine = data;
         });
     });
 
-    while (geoShape === '') {
+    while (geoLine === '' || geoPoint === '') {
         await delay(1000);
     }
 }
