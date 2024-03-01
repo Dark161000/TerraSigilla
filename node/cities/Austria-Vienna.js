@@ -1,6 +1,6 @@
-const puppeteer = require('puppeteer');
-const jsdom = require('jsdom');
-const fs = require('fs');
+const puppeteer = require('puppeteer'),
+jsdom = require('jsdom'),
+fs = require('fs');
 
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
