@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer'),
+axios = require('axios'),
 jsdom = require('jsdom'),
+http = require('http'),
 fs = require('fs');
 
 function delay(time) {
@@ -81,7 +83,22 @@ function delay(time) {
 }*/
 
 async function getData() {
+    let geoShape = '';
+    http.get("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BAUSTELLENLINOGD&srsName=EPSG:4326&outputFormat=text/javascript&format_options=callback:wienmapBAUSTELLENLIN2PKTOGD.callback&charset=UTF-8&EXCEPTIONS=text/javascript", (response) => {
+        let data = '';
 
+        response.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        response.on('end', () => {
+            geoShape = data;
+        });
+    });
+
+    while (geoShape === '') {
+        await delay(1000);
+    }
 }
 
 module.exports = {
