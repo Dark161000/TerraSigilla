@@ -6,13 +6,13 @@ function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
-async function getData() {  
-    fs.writeFile('Salzburg.csv','"zone","arbeiten","maßnahmen","termin","kontakt","coordinates"', function (err) {
+/*async function getData() {  
+    fs.writeFile('../csv/Austria-Vienna.csv','"zone","arbeiten","maßnahmen","termin","kontakt","coordinates"', function (err) {
         if (err) throw err;
         console.log('Created!');
     });
 
-    const mapOfViennaURL = 'https://m.wien.gv.at/stadtplan/#base=karte&overlay=adressen&zoom=11&layer=baustelle%2Ceinbahn&lon=16.3816&lat=48.2079';
+    const mapOfViennaURL = 'https://m.wien.gv.at/stadtplan/#base=karte&overlay=adressen&zoom=11&layer=baustelle%2Ceinbahn&lon=16.4372&lat=48.3774';
 
     const browser = await puppeteer.launch({headless: false, defaultViewport: {width:1920, height:1080}});
     const page = await browser.newPage();
@@ -78,8 +78,12 @@ async function getData() {
     }
     await browser.close();
     clearInterval(intervalId);  
+}*/
+
+async function getData() {
+
 }
 
 module.exports = {
-    getData: getData,
+    search: getData,
 }

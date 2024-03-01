@@ -11,7 +11,7 @@ const createWindow = () => {
         height: 1200,
         //icon: path.join(__dirname, 'calendar/images/icon.ico'),
         webPreferences: {
-            //preload: path.join(__dirname, 'preload.js'),
+            preload: path.join(__dirname, 'preload.js'),
         }
     });
 
@@ -22,4 +22,9 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
     createWindow();
+
+    ipcMain.on('search', (e, country, city) => {
+        const jsFile = require(path.join(__dirname, `node/cities/${country}-${city}.js`));
+        jsFile.search(e);
+    })
 })

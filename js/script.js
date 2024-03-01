@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded',() => {
     //Prevent default when successfull submit
     form.addEventListener('submit', (e) => {
     e.preventDefault();
+    window.ipc.search('Austria', 'Vienna');
     });
 
     //Focus coords on map from table
