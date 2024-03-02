@@ -93,6 +93,8 @@ header {
 [id="results"] thead tr {
     background:#008405;
     color: #FDFDFD;
+    position: sticky;
+    top: 0;
 }
 [id="results"] tbody tr:nth-child(odd) {
     background:#FDFDFD;
