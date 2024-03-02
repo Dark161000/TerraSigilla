@@ -83,4 +83,5 @@ document.addEventListener('DOMContentLoaded',() => {
 
     //Listeners
     window.ipc.preRenderTable();
+    window.ipc.appendTable();
 });

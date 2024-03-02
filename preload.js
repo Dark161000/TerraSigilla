@@ -13,7 +13,7 @@ contextBridge.exposeInMainWorld('ipc', {
         if (isHeaderOnly) {
             htmlCode += '<thead><tr>';
             data.replace('\n','').split('::').forEach(el => htmlCode += `<th>${el}</th>`);
-            htmlCode += '</tr></thead>';
+            htmlCode += '</tr></thead><tbody></tbody>';
 
             table.innerHTML = htmlCode;
         } else {
@@ -34,5 +34,16 @@ contextBridge.exposeInMainWorld('ipc', {
 
             table.innerHTML = htmlCode;
         }
+    }),
+    appendTable: () => ipcRenderer.on('appendTable', (e, rowInfo) => {
+        let htmlCode = '';
+        const table = document.querySelector('#dataTable tbody'),
+        data = rowInfo.replaceAll('"', '').replaceAll('\n', ''); //Remove all double quotes
+
+        htmlCode += '<tbody><tr>';
+        data.replace('\n','').split('::').forEach(el => htmlCode += `<td>${el}</td>`);
+        htmlCode += '</tr></tbody>';
+
+        table.innerHTML += htmlCode;
     }),
 });

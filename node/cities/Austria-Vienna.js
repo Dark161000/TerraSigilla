@@ -115,13 +115,13 @@ async function getData(e) {
     }
 
     //Parse to JSON
-    const geoPointObj = JSON.parse(geoPoint),
-    geoLineObj = JSON.parse(geoLine);
+    const geoPointObj = await JSON.parse(geoPoint),
+    geoLineObj = await JSON.parse(geoLine);
 
     //Create file if it doesn't exist and show header table, if it exist, show data in table
     if (!fs.existsSync(path.join(__dirname,'../../data/Austria-Vienna.txt'))) {
         const header = '"id"::"bezirk"::"bezeichnung"::"arbeiten"::"maßnahmen"::"beginn"::"ende"::"antragsteller"::"kontakt"::"tel"::"lineString"::"coords"\n';
-        fs.writeFile(path.join(__dirname,'../../data/Austria-Vienna.txt'), header, (err) => {if(err){console.error('Error writing to file: ', err)}});
+        fs.writeFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), header, (err) => {if(err){console.error('Error writing to file: ', err)}});
         await e.send('preRenderTable', true, header);
     } else {
         const fileData = fs.readFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'),'utf-8', (err) => {if(err){console.error('Error reading file: ', err)}});
@@ -144,7 +144,8 @@ async function getData(e) {
         coords = `${geoLineObj.features[i].geometry.coordinates[0][1]}, ${geoLineObj.features[i].geometry.coordinates[0][0]}`,
         info = `"${id}"::"${bezirk}"::"${bezeichnung}"::"${arbeiten}"::"${maßnahmen}"::"${beginn}"::"${ende}"::"${antragsteller}"::"${kontakt}"::"${tel}"::"${lineString}"::"${coords}"\n`
 
-        fs.appendFile(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
+        fs.appendFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
+        await e.send('appendTable',info);
     }
 }
 
