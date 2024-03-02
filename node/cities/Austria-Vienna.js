@@ -2,7 +2,8 @@ const puppeteer = require('puppeteer'),
 axios = require('axios'),
 jsdom = require('jsdom'),
 http = require('http'),
-fs = require('fs');
+fs = require('fs'),
+path = require('path');
 
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
@@ -85,15 +86,16 @@ function delay(time) {
 async function getData() {
     let geoPoint = '';
     let geoLine = '';
+
+    //get data from js file
     http.get("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BAUSTELLENPKTOGD&srsName=EPSG:4326&outputFormat=text/javascript&format_options=callback:wienmapBAUSTELLENPKTOGD.callback&charset=UTF-8&EXCEPTIONS=text/javascript", (response) => {
         let data = '';
 
         response.on('data', (chunk) => {
             data += chunk;
         });
-
         response.on('end', () => {
-            geoPoint = data;
+            geoPoint = data.replaceAll('wienmapBAUSTELLENPKTOGD.callback(', '').replaceAll('})', '}');
         });
     });
 
@@ -103,14 +105,42 @@ async function getData() {
         response.on('data', (chunk) => {
             data += chunk;
         });
-
         response.on('end', () => {
-            geoLine = data;
+            geoLine = data.replaceAll('wienmapBAUSTELLENLIN2PKTOGD.callback(', '').replaceAll('})', '}');
         });
     });
 
     while (geoLine === '' || geoPoint === '') {
         await delay(1000);
+    }
+
+    //Parse to JSON
+    const geoPointObj = JSON.parse(geoPoint),
+    geoLineObj = JSON.parse(geoLine);
+
+    //Create file if it doesn't exist and show header table, if it exist, show data in table
+    if (!fs.existsSync(path.join(__dirname,'../../csv/Austria-Vienna.csv'))) {
+        const header = '"id","bezirk","bezeichnung","arbeiten","maßnahmen","beginn","ende","antragsteller","kontakt","tel","lineString","coords"\n';
+        fs.writeFile(path.join(__dirname,'../../csv/Austria-Vienna.csv'), header, (err) => {if(err){console.error('Error writing to file: ', err)}});
+    }
+
+    //Begin fetching to file
+    for (let i = 0; i < geoLineObj.features.length; i++) {
+        const id = geoLineObj.features[i].properties.OBJECTID,
+        bezirk = geoLineObj.features[i].properties.BEZIRK,
+        bezeichnung = geoLineObj.features[i].properties.BEZEICHNUNG,
+        arbeiten = geoLineObj.features[i].properties.BEHINDERUNGSART,
+        maßnahmen = geoLineObj.features[i].properties.PRESSETEXT,
+        beginn = geoLineObj.features[i].properties.OBJEKT_BEGINN,
+        ende = geoLineObj.features[i].properties.OBJEKT_ENDE,
+        antragsteller = geoLineObj.features[i].properties.ANTRAGSTELLER,
+        kontakt = geoLineObj.features[i].properties.ANSPRECHPERSON,
+        tel = geoLineObj.features[i].properties.ANSPRECHPERSON_TEL,
+        lineString = geoLineObj.features[i].geometry.coordinates.toString(),
+        coords = `${geoLineObj.features[i].geometry.coordinates[0][1]}, ${geoLineObj.features[i].geometry.coordinates[0][0]}`,
+        info = `"${id}","${bezirk}","${bezeichnung}","${arbeiten}","${maßnahmen}","${beginn}","${ende}","${antragsteller}","${kontakt}","${tel}","${lineString}","${coords}"\n`
+
+        fs.appendFile(path.join(__dirname,'../../csv/Austria-Vienna.csv'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
     }
 }
 
