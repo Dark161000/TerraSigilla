@@ -128,7 +128,7 @@ async function getData(e) {
         await e.send('preRenderTable', false, fileData);
     }
 
-    //Begin fetching to file
+    //Begin fetching to file lineString
     for (let i = 0; i < geoLineObj.features.length; i++) {
         const id = geoLineObj.features[i].properties.OBJECTID,
         bezirk = geoLineObj.features[i].properties.BEZIRK,
@@ -143,6 +143,25 @@ async function getData(e) {
         lineString = geoLineObj.features[i].geometry.coordinates.toString().replaceAll(',48', ' 48').replaceAll(',16',', 16'),
         coords = `${geoLineObj.features[i].geometry.coordinates[0][1]}, ${geoLineObj.features[i].geometry.coordinates[0][0]}`,
         info = `"${id}"::"${bezirk}"::"${bezeichnung}"::"${arbeiten}"::"${maßnahmen}"::"${beginn}"::"${ende}"::"${antragsteller}"::"${kontakt}"::"${tel}"::"${lineString}"::"${coords}"\n`
+
+        fs.appendFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
+        await e.send('appendTable',info);
+    }
+    
+    //Begin fetching to file shapePoint
+    for (let i = 0; i < geoPointObj.features.length; i++) {
+        const id = geoPointObj.features[i].properties.OBJECTID,
+        bezirk = geoPointObj.features[i].properties.BEZIRK,
+        bezeichnung = geoPointObj.features[i].properties.BEZEICHNUNG,
+        arbeiten = geoPointObj.features[i].properties.BEHINDERUNGSART,
+        maßnahmen = geoPointObj.features[i].properties.PRESSETEXT,
+        beginn = geoPointObj.features[i].properties.OBJEKT_BEGINN,
+        ende = geoPointObj.features[i].properties.OBJEKT_ENDE,
+        antragsteller = geoPointObj.features[i].properties.ANTRAGSTELLER,
+        kontakt = geoPointObj.features[i].properties.ANSPRECHPERSON,
+        tel = geoPointObj.features[i].properties.ANSPRECHPERSON_TEL,
+        coords = `${geoPointObj.features[i].geometry.coordinates.toString()}`,
+        info = `"${id}"::"${bezirk}"::"${bezeichnung}"::"${arbeiten}"::"${maßnahmen}"::"${beginn}"::"${ende}"::"${antragsteller}"::"${kontakt}"::"${tel}"::""::"${coords}"\n`
 
         fs.appendFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
         await e.send('appendTable',info);
