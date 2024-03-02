@@ -122,7 +122,10 @@ async function getData(e) {
     if (!fs.existsSync(path.join(__dirname,'../../data/Austria-Vienna.txt'))) {
         const header = '"id"::"bezirk"::"bezeichnung"::"arbeiten"::"maßnahmen"::"beginn"::"ende"::"antragsteller"::"kontakt"::"tel"::"lineString"::"coords"\n';
         fs.writeFile(path.join(__dirname,'../../data/Austria-Vienna.txt'), header, (err) => {if(err){console.error('Error writing to file: ', err)}});
-        await e.send('renderTable', true, header);
+        await e.send('preRenderTable', true, header);
+    } else {
+        const fileData = fs.readFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'),'utf-8', (err) => {if(err){console.error('Error reading file: ', err)}});
+        await e.send('preRenderTable', false, fileData);
     }
 
     //Begin fetching to file

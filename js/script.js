@@ -82,5 +82,5 @@ document.addEventListener('DOMContentLoaded',() => {
     });
 
     //Listeners
-    window.ipc.renderTable();
+    window.ipc.preRenderTable();
 });
