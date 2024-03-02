@@ -83,7 +83,7 @@ function delay(time) {
     clearInterval(intervalId);  
 }*/
 
-async function getData() {
+async function getData(e) {
     let geoPoint = '';
     let geoLine = '';
 
@@ -119,9 +119,10 @@ async function getData() {
     geoLineObj = JSON.parse(geoLine);
 
     //Create file if it doesn't exist and show header table, if it exist, show data in table
-    if (!fs.existsSync(path.join(__dirname,'../../csv/Austria-Vienna.csv'))) {
-        const header = '"id","bezirk","bezeichnung","arbeiten","maßnahmen","beginn","ende","antragsteller","kontakt","tel","lineString","coords"\n';
-        fs.writeFile(path.join(__dirname,'../../csv/Austria-Vienna.csv'), header, (err) => {if(err){console.error('Error writing to file: ', err)}});
+    if (!fs.existsSync(path.join(__dirname,'../../data/Austria-Vienna.txt'))) {
+        const header = '"id"::"bezirk"::"bezeichnung"::"arbeiten"::"maßnahmen"::"beginn"::"ende"::"antragsteller"::"kontakt"::"tel"::"lineString"::"coords"\n';
+        fs.writeFile(path.join(__dirname,'../../data/Austria-Vienna.txt'), header, (err) => {if(err){console.error('Error writing to file: ', err)}});
+        await e.send('renderTable', true, header);
     }
 
     //Begin fetching to file
@@ -138,9 +139,9 @@ async function getData() {
         tel = geoLineObj.features[i].properties.ANSPRECHPERSON_TEL,
         lineString = geoLineObj.features[i].geometry.coordinates.toString(),
         coords = `${geoLineObj.features[i].geometry.coordinates[0][1]}, ${geoLineObj.features[i].geometry.coordinates[0][0]}`,
-        info = `"${id}","${bezirk}","${bezeichnung}","${arbeiten}","${maßnahmen}","${beginn}","${ende}","${antragsteller}","${kontakt}","${tel}","${lineString}","${coords}"\n`
+        info = `"${id}"::"${bezirk}"::"${bezeichnung}"::"${arbeiten}"::"${maßnahmen}"::"${beginn}"::"${ende}"::"${antragsteller}"::"${kontakt}"::"${tel}"::"${lineString}"::"${coords}"\n`
 
-        fs.appendFile(path.join(__dirname,'../../csv/Austria-Vienna.csv'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
+        fs.appendFile(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
     }
 }
 

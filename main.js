@@ -25,6 +25,6 @@ app.whenReady().then(() => {
 
     ipcMain.on('search', (e, country, city) => {
         const jsFile = require(path.join(__dirname, `node/cities/${country}-${city}.js`));
-        jsFile.search(e);
+        jsFile.search(e.sender);
     })
 })

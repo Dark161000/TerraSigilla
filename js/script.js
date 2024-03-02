@@ -80,4 +80,7 @@ document.addEventListener('DOMContentLoaded',() => {
             focusCoordsMap(e.target.parentElement.lastElementChild.textContent);
         }
     });
+
+    //Listeners
+    window.ipc.renderTable();
 });
