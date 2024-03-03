@@ -7,11 +7,13 @@ contextBridge.exposeInMainWorld('ipc', {
     // LISTENERS
     loadStart: () => ipcRenderer.on('loadStart', (e) => {
         document.querySelector('#loadingBox').style.display = 'block';
+        document.querySelector('#form fieldset').setAttribute('disabled', 'disabled');
     }),
     loadEnd: () => ipcRenderer.on('loadEnd', (e) => {
-        document.querySelector('#loadingBox').style = '';
-        document.querySelector('#innerBar').style = '';
+        document.querySelector('#loadingBox').removeAttribute('style');
+        document.querySelector('#innerBar').removeAttribute('style');
         document.querySelector('#outerBar p').innerHTML = '0%';
+        document.querySelector('#form fieldset').removeAttribute('disabled');
     }),
     progressBarPercent: () => ipcRenderer.on('progressBarPercent', (e, total, current) => {
         const percent = current * 100 / total;
