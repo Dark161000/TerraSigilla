@@ -94,7 +94,7 @@ async function getData(e) {
         antragsteller = geoPointObj.features[i].properties.ANTRAGSTELLER,
         kontakt = geoPointObj.features[i].properties.ANSPRECHPERSON,
         tel = geoPointObj.features[i].properties.ANSPRECHPERSON_TEL,
-        coords = `${geoPointObj.features[i].geometry.coordinates.toString()}`,
+        coords = `${geoPointObj.features[i].geometry.coordinates[1]}, ${geoPointObj.features[i].geometry.coordinates[0]}`,
         info = `"${id}"::"${bezirk}"::"${bezeichnung}"::"${arbeiten}"::"${maßnahmen}"::"${beginn}"::"${ende}"::"${antragsteller}"::"${kontakt}"::"${tel}"::""::"${coords}"\n`
 
         if (!await nodeScripts.findDuplicates(path.join(__dirname,'../../data/Austria-Vienna.txt'), info)) {
