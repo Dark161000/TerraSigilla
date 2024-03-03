@@ -3,7 +3,8 @@ axios = require('axios'),
 jsdom = require('jsdom'),
 http = require('http'),
 fs = require('fs'),
-path = require('path');
+path = require('path'),
+nodeScripts = require('../nodeScripts');
 
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
@@ -70,8 +71,10 @@ async function getData(e) {
         coords = `${geoLineObj.features[i].geometry.coordinates[0][1]}, ${geoLineObj.features[i].geometry.coordinates[0][0]}`,
         info = `"${id}"::"${bezirk}"::"${bezeichnung}"::"${arbeiten}"::"${maßnahmen}"::"${beginn}"::"${ende}"::"${antragsteller}"::"${kontakt}"::"${tel}"::"${lineString}"::"${coords}"\n`
 
-        fs.appendFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
-        await e.send('appendTable',info);
+        if (!await nodeScripts.findDuplicates(path.join(__dirname,'../../data/Austria-Vienna.txt'), info)) {
+            fs.appendFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
+            await e.send('appendTable',info);
+        }
     }
     
     //Begin fetching to file shapePoint
@@ -89,8 +92,10 @@ async function getData(e) {
         coords = `${geoPointObj.features[i].geometry.coordinates.toString()}`,
         info = `"${id}"::"${bezirk}"::"${bezeichnung}"::"${arbeiten}"::"${maßnahmen}"::"${beginn}"::"${ende}"::"${antragsteller}"::"${kontakt}"::"${tel}"::""::"${coords}"\n`
 
-        fs.appendFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
-        await e.send('appendTable',info);
+        if (!await nodeScripts.findDuplicates(path.join(__dirname,'../../data/Austria-Vienna.txt'), info)) {
+            fs.appendFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
+            await e.send('appendTable',info);
+        }
     }
 }
 

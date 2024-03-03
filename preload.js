@@ -25,9 +25,11 @@ contextBridge.exposeInMainWorld('ipc', {
             htmlCode += '</tr></thead>';
             //Add body
             htmlCode += '<tbody>';
-            for (let i = 1; i < dataRows.length; i++) {
+            for (let i = 1; i < dataRows.length - 1; i++) {
                 htmlCode += '<tr>'
-                dataRows[i].split('::').forEach(el => htmlCode += `<td>${el}</td>`);
+                for (let j = 0; j < dataRows[i].split('::').length; j++) {
+                    htmlCode += `<td>${dataRows[i].split('::')[j]}</td>`;
+                }
                 htmlCode += '</tr>'
             }
             htmlCode += '</tbody>';
@@ -40,9 +42,9 @@ contextBridge.exposeInMainWorld('ipc', {
         const table = document.querySelector('#dataTable tbody'),
         data = rowInfo.replaceAll('"', '').replaceAll('\n', ''); //Remove all double quotes
 
-        htmlCode += '<tbody><tr>';
+        htmlCode += '<tr>';
         data.replace('\n','').split('::').forEach(el => htmlCode += `<td>${el}</td>`);
-        htmlCode += '</tr></tbody>';
+        htmlCode += '</tr>';
 
         table.innerHTML += htmlCode;
     }),
