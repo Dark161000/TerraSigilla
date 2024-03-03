@@ -71,6 +71,9 @@ header {
     background: #008405;
     box-shadow: inset 8px 8px 20px -2px black;
 }
+[id="searchBtn"]:disabled {
+    background: #ced2ce;
+}
 [id="loadingBox"] {
     display: none;
     padding: 8px;
