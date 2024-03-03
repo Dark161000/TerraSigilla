@@ -1,7 +1,4 @@
-const puppeteer = require('puppeteer'),
-axios = require('axios'),
-jsdom = require('jsdom'),
-http = require('http'),
+const http = require('http'),
 fs = require('fs'),
 path = require('path'),
 nodeScripts = require('../nodeScripts');
