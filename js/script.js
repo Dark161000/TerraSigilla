@@ -82,6 +82,9 @@ document.addEventListener('DOMContentLoaded',() => {
     });
 
     //Listeners
+    window.ipc.loadStart();
+    window.ipc.loadEnd();
+    window.ipc.progressBarPercent();
     window.ipc.preRenderTable();
     window.ipc.appendTable();
 });

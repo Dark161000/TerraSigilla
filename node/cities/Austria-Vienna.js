@@ -53,6 +53,10 @@ async function getData(e) {
         await e.send('preRenderTable', false, fileData);
     }
 
+    //Declare total of features and let for current
+    const totalFeatures = geoLineObj.features.length + geoPointObj.features.length;
+    let currentFeatures = 0;
+
     //Begin fetching to file lineString
     for (let i = 0; i < geoLineObj.features.length; i++) {
         const id = geoLineObj.features[i].properties.OBJECTID,
@@ -73,6 +77,9 @@ async function getData(e) {
             fs.appendFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
             await e.send('appendTable',info);
         }
+
+        currentFeatures += 1;
+        await e.send('progressBarPercent', totalFeatures, currentFeatures);
     }
     
     //Begin fetching to file shapePoint
@@ -94,6 +101,9 @@ async function getData(e) {
             fs.appendFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
             await e.send('appendTable',info);
         }
+
+        currentFeatures += 1;
+        await e.send('progressBarPercent', totalFeatures, currentFeatures);
     }
     await e.send('loadEnd');
 }

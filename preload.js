@@ -5,8 +5,19 @@ contextBridge.exposeInMainWorld('ipc', {
     // SENDERS:  receive front-end | send back-end
     search: (country, city) => ipcRenderer.send('search', country, city),
     // LISTENERS
-    loadStart: () => ipcRenderer.on('loadStart', (e) => {}),
-    loadEnd: () => ipcRenderer.on('loadEnd', (e) => {}),
+    loadStart: () => ipcRenderer.on('loadStart', (e) => {
+        document.querySelector('#loadingBox').style.display = 'block';
+    }),
+    loadEnd: () => ipcRenderer.on('loadEnd', (e) => {
+        document.querySelector('#loadingBox').style = '';
+        document.querySelector('#innerBar').style = '';
+        document.querySelector('#outerBar p').innerHTML = '0%';
+    }),
+    progressBarPercent: () => ipcRenderer.on('progressBarPercent', (e, total, current) => {
+        const percent = current * 100 / total;
+        document.querySelector('#outerBar p').innerHTML = `${Math.floor(percent)}%`;
+        document.querySelector('#innerBar').style.width = `${percent * 0.01 * 176}px`;
+    }),
     preRenderTable: () => ipcRenderer.on('preRenderTable', (e, isHeaderOnly, tableData) => {
         let htmlCode = '';
         const table = document.querySelector('#dataTable'),
