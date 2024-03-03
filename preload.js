@@ -5,6 +5,8 @@ contextBridge.exposeInMainWorld('ipc', {
     // SENDERS:  receive front-end | send back-end
     search: (country, city) => ipcRenderer.send('search', country, city),
     // LISTENERS
+    loadStart: () => ipcRenderer.on('loadStart', (e) => {}),
+    loadEnd: () => ipcRenderer.on('loadEnd', (e) => {}),
     preRenderTable: () => ipcRenderer.on('preRenderTable', (e, isHeaderOnly, tableData) => {
         let htmlCode = '';
         const table = document.querySelector('#dataTable'),

@@ -8,6 +8,7 @@ function delay(time) {
 }
 
 async function getData(e) {
+    await e.send('loadStart');
     let geoPoint = '';
     let geoLine = '';
 
@@ -94,6 +95,7 @@ async function getData(e) {
             await e.send('appendTable',info);
         }
     }
+    await e.send('loadEnd');
 }
 
 module.exports = {

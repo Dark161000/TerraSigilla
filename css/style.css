@@ -44,7 +44,7 @@ header {
     box-shadow: -4px 0px 20px 0px black;
     z-index: 1;
 }
-[id="userInput"] div {
+[id="userInput"] [id="form"] {
     padding: 5px 10px;
 }
 [id="userInput"] fieldset {
@@ -70,6 +70,33 @@ header {
 [id="searchBtn"]:active {
     background: #008405;
     box-shadow: inset 8px 8px 20px -2px black;
+}
+[id="loadingBox"] {
+    display: none;
+    padding: 8px;
+    text-align: center;
+}
+[id="loadingGif"] {
+    width: 50%;
+}
+[id="outerBar"] {
+    padding: 0;
+    height: 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+[id="innerBar"] {
+    margin: 2px 2px;
+    position: absolute;
+    height: 16px;
+    width: 0px; /*176px MAX*/
+    border-radius: 3px;
+    background: linear-gradient(340deg, #66BE00, #f5f2f2);
+}
+[id="outerBar"] p {
+    margin: 2px 2px;
+    position: relative;
+    font-weight: bold;
 }
 
 /*****************MAP VIEW********************/
