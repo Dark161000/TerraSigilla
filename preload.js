@@ -26,7 +26,7 @@ contextBridge.exposeInMainWorld('ipc', {
         data = tableData.replaceAll('"', ''); //Remove all double quotes
 
         if (isHeaderOnly) {
-            htmlCode += '<thead><tr>';
+            htmlCode += '<thead><<tr><th>dataStatus</th>';
             data.replace('\n','').split('::').forEach(el => htmlCode += `<th>${el}</th>`);
             htmlCode += '</tr></thead><tbody></tbody>';
 
@@ -35,13 +35,13 @@ contextBridge.exposeInMainWorld('ipc', {
             const dataRows = data.split('\n');
 
             //Add header
-            htmlCode += '<thead><tr>';
+            htmlCode += '<thead><tr><th>dataStatus</th>';
             dataRows[0].split('::').forEach(el => htmlCode += `<th>${el}</th>`);
             htmlCode += '</tr></thead>';
             //Add body
             htmlCode += '<tbody>';
             for (let i = 1; i < dataRows.length - 1; i++) {
-                htmlCode += '<tr>'
+                htmlCode += '<tr><td></td>'
                 for (let j = 0; j < dataRows[i].split('::').length; j++) {
                     htmlCode += `<td>${dataRows[i].split('::')[j]}</td>`;
                 }
@@ -57,7 +57,7 @@ contextBridge.exposeInMainWorld('ipc', {
         const table = document.querySelector('#dataTable tbody'),
         data = rowInfo.replaceAll('"', '').replaceAll('\n', ''); //Remove all double quotes
 
-        htmlCode += '<tr>';
+        htmlCode += '<tr><td></td>';
         data.replace('\n','').split('::').forEach(el => htmlCode += `<td>${el}</td>`);
         htmlCode += '</tr>';
 
