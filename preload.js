@@ -14,6 +14,13 @@ contextBridge.exposeInMainWorld('ipc', {
         document.querySelector('#innerBar').removeAttribute('style');
         document.querySelector('#outerBar p').innerHTML = '0%';
         document.querySelector('#form fieldset').removeAttribute('disabled');
+        document.querySelectorAll('#dataTable td:first-child').forEach( el => {
+            if (el.innerText === '') {
+                el.innerText = 'Not Found';
+                el.setAttribute('class','notFoundRow');
+            }
+        });
+
     }),
     progressBarPercent: () => ipcRenderer.on('progressBarPercent', (e, total, current) => {
         const percent = current * 100 / total;
@@ -57,10 +64,14 @@ contextBridge.exposeInMainWorld('ipc', {
         const table = document.querySelector('#dataTable tbody'),
         data = rowInfo.replaceAll('"', '').replaceAll('\n', ''); //Remove all double quotes
 
-        htmlCode += '<tr><td></td>';
+        htmlCode += '<tr><td class="newRow">New!</td>';
         data.replace('\n','').split('::').forEach(el => htmlCode += `<td>${el}</td>`);
         htmlCode += '</tr>';
 
         table.innerHTML += htmlCode;
+    }),
+    duplicateRow: () => ipcRenderer.on('duplicateRow', (e, row) => {
+        document.querySelectorAll('tr')[row].querySelector('td:first-child').innerHTML = 'Unchanged'; //unchanged status since it is found
+        document.querySelectorAll('tr')[row].querySelector('td:first-child').setAttribute('class','unchangedRow');
     }),
 });

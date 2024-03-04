@@ -61,7 +61,7 @@ async function getData(e) {
         coordintateFine = `${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaFineTO.coordinateMappaCY}, ${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaFineTO.coordinateMappaCX}`,
         info = `"${id}"::"${dataPubblicazione}"::"${titolo}"::"${trattoEvento}"::"${evento}"::"${dettaglio}"::"${priorita}"::"${fonte}"::"${coordinateInizio}"::"${coordintateFine}"\n`
 
-        if (!await nodeScripts.findDuplicates(path.join(__dirname,'../../data/Italy-Rome.txt'), info)) {
+        if (!await nodeScripts.findDuplicates(e, path.join(__dirname,'../../data/Italy-Rome.txt'), info)) {
             fs.appendFileSync(path.join(__dirname,'../../data/Italy-Rome.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
             await e.send('appendTable',info);
         }

@@ -87,4 +87,5 @@ document.addEventListener('DOMContentLoaded',() => {
     window.ipc.progressBarPercent();
     window.ipc.preRenderTable();
     window.ipc.appendTable();
+    window.ipc.duplicateRow();
 });

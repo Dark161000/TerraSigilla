@@ -137,6 +137,18 @@ header {
     background:#DBD0CB;
     cursor: pointer;
 }
+.newRow {
+    color: #335c1b;
+    font-weight: bold;
+}
+.unchangedRow {
+    color: #c2ae00;
+    font-weight: bold;
+}
+.notFoundRow {
+    color: #bb0000;
+    font-weight: bold;
+}
 /******************FOOTER*********************/
 footer {
     display: flex;
