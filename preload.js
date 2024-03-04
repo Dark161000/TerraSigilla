@@ -33,7 +33,7 @@ contextBridge.exposeInMainWorld('ipc', {
         data = tableData.replaceAll('"', ''); //Remove all double quotes
 
         if (isHeaderOnly) {
-            htmlCode += '<thead><<tr><th>dataStatus</th>';
+            htmlCode += '<thead><tr><th>dataStatus</th>';
             data.replace('\n','').split('::').forEach(el => htmlCode += `<th>${el}</th>`);
             htmlCode += '</tr></thead><tbody></tbody>';
 
