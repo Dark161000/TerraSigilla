@@ -73,7 +73,7 @@ async function getData(e) {
         coords = `${geoLineObj.features[i].geometry.coordinates[0][1]}, ${geoLineObj.features[i].geometry.coordinates[0][0]}`,
         info = `"${id}"::"${bezirk}"::"${bezeichnung}"::"${arbeiten}"::"${maßnahmen}"::"${beginn}"::"${ende}"::"${antragsteller}"::"${kontakt}"::"${tel}"::"${lineString}"::"${coords}"\n`
 
-        if (!await nodeScripts.findDuplicates(path.join(__dirname,'../../data/Austria-Vienna.txt'), info)) {
+        if (!await nodeScripts.findDuplicates(e, path.join(__dirname,'../../data/Austria-Vienna.txt'), info)) {
             fs.appendFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
             await e.send('appendTable',info);
         }
@@ -97,7 +97,7 @@ async function getData(e) {
         coords = `${geoPointObj.features[i].geometry.coordinates[1]}, ${geoPointObj.features[i].geometry.coordinates[0]}`,
         info = `"${id}"::"${bezirk}"::"${bezeichnung}"::"${arbeiten}"::"${maßnahmen}"::"${beginn}"::"${ende}"::"${antragsteller}"::"${kontakt}"::"${tel}"::""::"${coords}"\n`
 
-        if (!await nodeScripts.findDuplicates(path.join(__dirname,'../../data/Austria-Vienna.txt'), info)) {
+        if (!await nodeScripts.findDuplicates(e, path.join(__dirname,'../../data/Austria-Vienna.txt'), info)) {
             fs.appendFileSync(path.join(__dirname,'../../data/Austria-Vienna.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
             await e.send('appendTable',info);
         }
