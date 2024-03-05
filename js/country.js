@@ -11,7 +11,34 @@ const countries = {
     Italy: {
         zoom: 6,
         cities: {
-            Rome: {zoom: 11,},
+            CityofSanMarino: {
+                zoom: 12,
+                url: 'https://www.cciss.it/web/cciss/situazione-della-viabilita',
+            },
+            Florence: {
+                zoom: 10,
+                url: 'https://www.cciss.it/web/cciss/situazione-della-viabilita',
+            },
+            Milan: {
+                zoom: 12,
+                url: 'https://www.cciss.it/web/cciss/situazione-della-viabilita',
+            },
+            Naples: {
+                zoom: 10,
+                url: 'https://www.cciss.it/web/cciss/situazione-della-viabilita',
+            },
+            Palermo: {
+                zoom: 12,
+                url: 'https://www.cciss.it/web/cciss/situazione-della-viabilita',
+            },
+            Rome: {
+                zoom: 11,
+                url: 'https://www.cciss.it/web/cciss/situazione-della-viabilita',
+            },
+            Turin: {
+                zoom: 10,
+                url: 'https://www.cciss.it/web/cciss/situazione-della-viabilita',
+            },
         },
     },
 };
