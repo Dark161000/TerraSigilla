@@ -36,7 +36,7 @@ const countries = {
                 url: 'https://www.cciss.it/web/cciss/situazione-della-viabilita',
             },
             Turin: {
-                zoom: 10,
+                zoom: 12,
                 url: 'https://www.cciss.it/web/cciss/situazione-della-viabilita',
             },
         },
