@@ -14,7 +14,7 @@ contextBridge.exposeInMainWorld('ipc', {
         document.querySelector('#innerBar').removeAttribute('style');
         document.querySelector('#outerBar p').innerHTML = '0%';
         document.querySelector('#form fieldset').removeAttribute('disabled');
-        document.querySelectorAll('#dataTable td:first-child').forEach( el => {
+        document.querySelectorAll('#dataTable td:nth-child(2)').forEach( el => {
             if (el.innerText === '') {
                 el.innerText = 'Not Found';
                 el.setAttribute('class','notFoundRow');
@@ -33,7 +33,7 @@ contextBridge.exposeInMainWorld('ipc', {
         data = tableData.replaceAll('"', ''); //Remove all double quotes
 
         if (isHeaderOnly) {
-            htmlCode += '<thead><tr><th>dataStatus</th>';
+            htmlCode += '<thead><tr><th>row</th><th>dataStatus</th>';
             data.replace('\n','').split('::').forEach(el => htmlCode += `<th>${el}</th>`);
             htmlCode += '</tr></thead><tbody></tbody>';
 
@@ -42,13 +42,13 @@ contextBridge.exposeInMainWorld('ipc', {
             const dataRows = data.split('\n');
 
             //Add header
-            htmlCode += '<thead><tr><th>dataStatus</th>';
+            htmlCode += '<thead><tr><th>row</th><th>dataStatus</th>';
             dataRows[0].split('::').forEach(el => htmlCode += `<th>${el}</th>`);
             htmlCode += '</tr></thead>';
             //Add body
             htmlCode += '<tbody>';
             for (let i = 1; i < dataRows.length - 1; i++) {
-                htmlCode += '<tr><td></td>'
+                htmlCode += `<tr><td>${i}</td><td></td>`
                 for (let j = 0; j < dataRows[i].split('::').length; j++) {
                     htmlCode += `<td>${dataRows[i].split('::')[j]}</td>`;
                 }
@@ -62,16 +62,17 @@ contextBridge.exposeInMainWorld('ipc', {
     appendTable: () => ipcRenderer.on('appendTable', (e, rowInfo) => {
         let htmlCode = '';
         const table = document.querySelector('#dataTable tbody'),
-        data = rowInfo.replaceAll('"', '').replaceAll('\n', ''); //Remove all double quotes
+        data = rowInfo.replaceAll('"', '').replaceAll('\n', ''), //Remove all double quotes
+        lRowNum = document.querySelector('#dataTable tbody tr:last-child td:first-child') === null ? 0 : Number(document.querySelector('#dataTable tbody tr:last-child td:first-child').innerText);
 
-        htmlCode += '<tr><td class="newRow">New!</td>';
+        htmlCode += `<tr><td>${lRowNum + 1}</td><td class="newRow">New!</td>`;
         data.replace('\n','').split('::').forEach(el => htmlCode += `<td>${el}</td>`);
         htmlCode += '</tr>';
 
         table.innerHTML += htmlCode;
     }),
     duplicateRow: () => ipcRenderer.on('duplicateRow', (e, row) => {
-        document.querySelectorAll('tr')[row].querySelector('td:first-child').innerHTML = 'Unchanged'; //unchanged status since it is found
-        document.querySelectorAll('tr')[row].querySelector('td:first-child').setAttribute('class','unchangedRow');
+        document.querySelectorAll('tr')[row].querySelector('td:nth-child(2)').innerHTML = 'Unchanged'; //unchanged status since it is found
+        document.querySelectorAll('tr')[row].querySelector('td:nth-child(2)').setAttribute('class','unchangedRow');
     }),
 });
