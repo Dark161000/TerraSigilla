@@ -8,6 +8,15 @@ const countries = {
             },
         },
     },
+    Germany: {
+        zoom: 6,
+        cities: {
+            Berlin: {
+                zoom: 10,
+                url: 'https://viz.berlin.de/verkehr-in-berlin/baustellen-sperrungen-und-sonstige-storungen/?it=verkehr-in-berlin/baustellen-und-sperrungen/',
+            },
+        },
+    },
     Italy: {
         zoom: 6,
         cities: {
