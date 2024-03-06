@@ -23,8 +23,10 @@ function focusCoordsMap(coords) {
 }
 
 function tableSort(e, column) {
+    //Give down arrow to know column that is being sorted
     table.querySelectorAll('th').forEach(el => {el.innerText = el.innerText.replaceAll('▼','')});
     e.target.innerText += '▼';
+    
     const tbody = table.querySelector('tbody')
     const rows = Array.from(tbody.querySelectorAll('tr'));
 
