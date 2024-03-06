@@ -22,6 +22,26 @@ function focusCoordsMap(coords) {
     mapViewer.setAttribute('src', mapUrl);
 }
 
+function tableSort(e, column) {
+    table.querySelectorAll('th').forEach(el => {el.innerText = el.innerText.replaceAll('▼','')});
+    e.target.innerText += '▼';
+    const tbody = table.querySelector('tbody')
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    // Sort the array based on the content of the selected column
+    rows.sort((a, b) => {
+        const aValue = a.cells[column].innerText;
+        const bValue = b.cells[column].innerText;
+
+        // Parse the values appropriately for numeric sorting
+        return aValue.localeCompare(bValue, undefined, { numeric: true });
+    });
+
+    // Update the HTML content of the tbody with the sorted rows
+    tbody.innerHTML = '';
+    rows.forEach(row => tbody.appendChild(row));
+}
+
 //Hide/unhide cities from country selection
 function cityListUpd(country) {
     citySelect.querySelectorAll('option:not(:first-child)').forEach(el => {
@@ -74,9 +94,12 @@ document.addEventListener('DOMContentLoaded',() => {
     window.ipc.search(countrySelect.value, citySelect.value);
     });
 
-    //Focus coords on map from table
+    //Add event listener to cell
     document.querySelector('#results').addEventListener('click',(e) => {
-        if (e.target.tagName === 'TD') {
+        if (e.target.tagName === 'TH') {//Sort according to selected row
+            const column = e.target.cellIndex;
+            tableSort(e, column);
+        } else if (e.target.tagName === 'TD') {//Focus coords on map from table
             focusCoordsMap(e.target.parentElement.lastElementChild.textContent);
         }
     });

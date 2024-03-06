@@ -48,11 +48,11 @@ contextBridge.exposeInMainWorld('ipc', {
             //Add body
             htmlCode += '<tbody>';
             for (let i = 1; i < dataRows.length - 1; i++) {
-                htmlCode += `<tr><td>${i}</td><td></td>`
+                htmlCode += `<tr><td>${i}</td><td></td>`;
                 for (let j = 0; j < dataRows[i].split('::').length; j++) {
                     htmlCode += `<td>${dataRows[i].split('::')[j]}</td>`;
                 }
-                htmlCode += '</tr>'
+                htmlCode += '</tr>';
             }
             htmlCode += '</tbody>';
 

@@ -127,6 +127,10 @@ header {
     position: sticky;
     top: 0;
 }
+[id="results"] thead th:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
 [id="results"] tbody tr:nth-child(odd) {
     background:#FDFDFD;
 }
