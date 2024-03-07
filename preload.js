@@ -4,7 +4,7 @@ dotEnv = require('apiKey.env').config();
 contextBridge.exposeInMainWorld('ipc', {
     ipcRenderer: ipcRenderer,
     //FUNCTIONS
-    apiKey: () => {return API_KEY},
+    apiKey: () => {return process.env.API_KEY},
     // SENDERS:  receive front-end | send back-end
     search: (country, city) => ipcRenderer.send('search', country, city),
     // LISTENERS
