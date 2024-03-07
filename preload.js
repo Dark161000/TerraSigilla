@@ -1,7 +1,10 @@
-const { contextBridge, ipcRenderer} = require('electron');
+const { contextBridge, ipcRenderer} = require('electron'),
+dotEnv = require('apiKey.env').config();
 
 contextBridge.exposeInMainWorld('ipc', {
     ipcRenderer: ipcRenderer,
+    //FUNCTIONS
+    apiKey: () => {return API_KEY},
     // SENDERS:  receive front-end | send back-end
     search: (country, city) => ipcRenderer.send('search', country, city),
     // LISTENERS
