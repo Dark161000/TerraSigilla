@@ -22,6 +22,13 @@ function focusCoordsMap(coords) {
     mapViewer.setAttribute('src', mapUrl);
 }
 
+//Show HERE Map
+function hereMap() {
+    var platform = new H.service.Platform({
+        'apikey': window.ipc.apikey()
+    });
+}
+
 function tableSort(e, column) {
     //Give down arrow to know column that is being sorted
     table.querySelectorAll('th').forEach(el => {el.innerText = el.innerText.replaceAll('▼','')});
