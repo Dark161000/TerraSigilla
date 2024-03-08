@@ -69,7 +69,7 @@ async function getData(e) {
         antragsteller = geoLineObj.features[i].properties.ANTRAGSTELLER,
         kontakt = geoLineObj.features[i].properties.ANSPRECHPERSON,
         tel = geoLineObj.features[i].properties.ANSPRECHPERSON_TEL,
-        lineString = geoLineObj.features[i].geometry.coordinates.toString().replaceAll(',48', ' 48').replaceAll(',16',', 16'),
+        lineString = geoLineObj.features[i].geometry.coordinates.toString().replaceAll(',48', ', 48').replaceAll(',16','; 16'),
         coords = `${geoLineObj.features[i].geometry.coordinates[0][1]}, ${geoLineObj.features[i].geometry.coordinates[0][0]}`,
         info = `"${id}"::"${bezirk}"::"${bezeichnung}"::"${arbeiten}"::"${maßnahmen}"::"${beginn}"::"${ende}"::"${antragsteller}"::"${kontakt}"::"${tel}"::"${lineString}"::"${coords}"\n`
 

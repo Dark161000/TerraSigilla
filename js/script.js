@@ -58,6 +58,18 @@ function focusCoordsMap(coords) {
     map.setZoom(17);
 }
 
+function lineStringMap(lineStringText) {
+    const lineStringArray = lineStringText.replaceAll(' ', '').split(';');
+    let lineString = new H.geo.LineString();
+
+    lineStringArray.forEach(el => {
+        const [longitude,latitude] = el.split(',');
+        lineString.pushPoint({lat: parseFloat(latitude), lng: parseFloat(longitude)});
+    });
+
+    map.addObject(new H.map.Polyline(lineString, {style: {lineWidth: 4}}));
+}
+
 function tableSort(e, column) {
     //Give down arrow to know column that is being sorted
     table.querySelectorAll('th').forEach(el => {el.innerText = el.innerText.replaceAll('▼','')});
@@ -139,7 +151,13 @@ document.addEventListener('DOMContentLoaded',() => {
             const column = e.target.cellIndex;
             tableSort(e, column);
         } else if (e.target.tagName === 'TD') {//Focus coords on map from table
-            focusCoordsMap(e.target.parentElement.lastElementChild.textContent);
+            const lastRow = e.target.parentElement.lastElementChild.textContent,
+            beforeLastRow = e.target.parentElement.lastElementChild.previousElementSibling.textContent;
+
+            focusCoordsMap(lastRow);
+            if (beforeLastRow !== '') {
+                lineStringMap(beforeLastRow);    
+            }
         }
     });
 
