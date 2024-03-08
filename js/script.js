@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded',() => {
         if (e.target.tagName === 'TH') {//Sort according to selected row
             const column = e.target.cellIndex;
             tableSort(e, column);
-        } else if (e.target.tagName === 'TD') {//Focus coords on map from table
+        } else if (e.target.tagName === 'TD') {//Focus coords on map from table and show lineString
             const lastRow = e.target.parentElement.lastElementChild.textContent,
             beforeLastRow = e.target.parentElement.lastElementChild.previousElementSibling.textContent;
 
