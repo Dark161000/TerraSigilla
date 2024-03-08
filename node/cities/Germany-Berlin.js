@@ -58,7 +58,13 @@ async function getData(e) {
         let lineString = '';
         let coordinate = '';
         try {
-            lineString = apiDataObj.features[i].geometry.geometries[1].coordinates.toString().replaceAll(',52',', 52').replaceAll(',13',', 13');
+            lineString = apiDataObj.features[i].geometry.geometries[1].coordinates.toString().replace(/,52|,53|,13|,14|,12/g, match => {
+                if (match === ',52' || match === ',53') {
+                    return match.replace(',', ', ');
+                } else {
+                    return match.replace(',', '; ');
+                }
+            });
             coordinate = `${apiDataObj.features[i].geometry.geometries[0].coordinates[1]}, ${apiDataObj.features[i].geometry.geometries[0].coordinates[0]}`;
         } catch (err) {
             coordinate = `${apiDataObj.features[i].geometry.coordinates[1]}, ${apiDataObj.features[i].geometry.coordinates[0]}`;
