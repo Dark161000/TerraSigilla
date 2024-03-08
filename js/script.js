@@ -9,24 +9,53 @@ mapViewer = document.querySelector('#map'),
 searchBtn = document.querySelector('#searchBtn'),
 table = document.querySelector('#results'),
 footer = document.querySelector('footer');
+let map = '',
+platform = '';
+
+//Show HERE Map
+function hereMap() {
+    platform = new H.service.Platform({
+        'apikey': window.ipc.apiKey()
+    });
+
+    const defaultLayers = platform.createDefaultLayers();
+
+    // Instantiate (and display) a map object:
+    map = new H.Map(document.querySelector('#map'), defaultLayers.vector.normal.map, {
+        zoom: 2,
+        center: { lat: 21, lng: -38 },
+        pixelRatio: window.devicePixelRatio || 1
+    });
+    window.addEventListener('resize', () => map.getViewPort().resize());
+    const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+    const ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
+}
 
 //Move map to location from selected dropdown
 function focusMap(country, city, z = 1) {
-    const mapUrl = `https://maps.google.com/maps?hl=en&q=${city}+${country}&t=&z=${z}&ie=UTF8&iwloc=B&output=embed`;
-    mapViewer.setAttribute('src', mapUrl);
+    map.removeObjects(map.getObjects());
+    const service = platform.getSearchService();
+    service.geocode({
+        q: `${city} ${country}`
+    }, (result) => {
+        // Add a marker for each location found
+        result.items.forEach((item) => {
+            const marker = new H.map.Marker(item.position);
+            map.addObject(marker);
+            map.setCenter(item.position);
+            map.setZoom(z);
+        });
+    }, alert);
 }
 
 //Move map to selected row from location
 function focusCoordsMap(coords) {
-    const mapUrl = `https://maps.google.com/maps?hl=en&q=${coords}&t=&z=17&ie=UTF8&iwloc=B&output=embed`;
-    mapViewer.setAttribute('src', mapUrl);
-}
-
-//Show HERE Map
-function hereMap() {
-    var platform = new H.service.Platform({
-        'apikey': window.ipc.apikey()
-    });
+    map.removeObjects(map.getObjects());
+    const [latitude, longitude] = coords.replaceAll(' ','').split(',');
+    const marker = new H.map.Marker({ lat: parseFloat(latitude), lng: parseFloat(longitude) });
+    map.addObject(marker);
+    map.setCenter(marker.getGeometry());
+    map.setZoom(17);
 }
 
 function tableSort(e, column) {
@@ -80,6 +109,7 @@ itemResize();
 
 document.addEventListener('DOMContentLoaded',() => {
     window.addEventListener('resize', itemResize);
+    hereMap();
 
     //Focus country in map
     countrySelect.addEventListener('change', (e) => {
