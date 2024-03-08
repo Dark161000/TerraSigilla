@@ -35,7 +35,7 @@ async function getData(e) {
 
     //Create file if it doesn't exist and show header table, if it exist, show data in table
     if (!fs.existsSync(path.join(__dirname,'../../data/Italy-Milan.txt'))) {
-        const header = '"id"::"dataPubblicazione"::"titolo"::"trattoEvento"::"evento"::"dettaglio"::"priorita"::"fonte"::"coordinateInizio"::"coordintateFine"\n';
+        const header = '"id"::"dataPubblicazione"::"titolo"::"trattoEvento"::"evento"::"dettaglio"::"priorita"::"fonte"::"lineString"::"coordinate"\n';
         fs.writeFileSync(path.join(__dirname,'../../data/Italy-Milan.txt'), header, (err) => {if(err){console.error('Error writing to file: ', err)}});
         await e.send('preRenderTable', true, header);
     } else {
@@ -57,9 +57,9 @@ async function getData(e) {
         dettaglio = apiDataObj.eventiTrafficoList[i].dettaglio.replaceAll('\n', ''),
         priorita = apiDataObj.eventiTrafficoList[i].priorita,
         fonte = apiDataObj.eventiTrafficoList[i].fonte,
-        coordinateInizio = `${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaInizioTO.coordinateMappaCY}, ${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaInizioTO.coordinateMappaCX}`,
-        coordintateFine = `${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaFineTO.coordinateMappaCY}, ${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaFineTO.coordinateMappaCX}`,
-        info = `"${id}"::"${dataPubblicazione}"::"${titolo}"::"${trattoEvento}"::"${evento}"::"${dettaglio}"::"${priorita}"::"${fonte}"::"${coordinateInizio}"::"${coordintateFine}"\n`
+        lineString = `${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaInizioTO.coordinateMappaCX}, ${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaInizioTO.coordinateMappaCY}; ${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaFineTO.coordinateMappaCX}, ${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaFineTO.coordinateMappaCY}`,
+        coordinate = `${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaInizioTO.coordinateMappaCY}, ${apiDataObj.eventiTrafficoList[i].percorsoTO.coordinateMappaInizioTO.coordinateMappaCX}`,
+        info = `"${id}"::"${dataPubblicazione}"::"${titolo}"::"${trattoEvento}"::"${evento}"::"${dettaglio}"::"${priorita}"::"${fonte}"::"${lineString}"::"${coordinate}"\n`
 
         if (!await nodeScripts.findDuplicates(e, path.join(__dirname,'../../data/Italy-Milan.txt'), info)) {
             fs.appendFileSync(path.join(__dirname,'../../data/Italy-Milan.txt'), info ,(err) => {if(err){console.error('Error writing to file: ', err)}});
