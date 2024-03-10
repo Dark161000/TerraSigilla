@@ -8,6 +8,8 @@ rightSide = document.querySelector('#mapResults'),
 mapViewer = document.querySelector('#map'),
 searchBtn = document.querySelector('#searchBtn'),
 table = document.querySelector('#results'),
+sourceBox = document.querySelector('#sourceWrapper'),
+sourceLink = document.querySelector('#sourceLink'),
 footer = document.querySelector('footer');
 let map = '',
 platform = '';
@@ -103,6 +105,12 @@ function cityListUpd(country) {
     });
 }
 
+//show sources
+function showSource(country, city) {
+    sourceLink.innerText = countries[`${country}`].cities[`${city}`].source.name;
+    sourceLink.href = countries[`${country}`].cities[`${city}`].source.url;
+}
+
 //Apply styles according to window size
 function itemResize() {
     const screenSizeW = window.innerWidth,
@@ -143,6 +151,13 @@ document.addEventListener('DOMContentLoaded',() => {
     form.addEventListener('submit', (e) => {
     e.preventDefault();
     window.ipc.search(countrySelect.value, citySelect.value);
+    showSource(countrySelect.value, citySelect.value);
+    });
+
+    //Prevent default url click and open in default browser
+    sourceLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.ipc.urlExternal(e.target.href);
     });
 
     //Add event listener to cell

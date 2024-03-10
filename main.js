@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 //const { setMainMenu } = require('./menu.js');
 const fs = require('fs');
 const path = require('path');
@@ -26,5 +26,8 @@ app.whenReady().then(() => {
     ipcMain.on('search', (e, country, city) => {
         const jsFile = require(path.join(__dirname, `node/cities/${country}-${city}.js`));
         jsFile.search(e.sender);
+    })
+    ipcMain.on('urlExternal', (e, url) => {
+        shell.openExternal(url);
     })
 })

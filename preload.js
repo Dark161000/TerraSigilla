@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('ipc', {
     apiKey: () => {return 'uujpfzzrwGov_clTg2PeXrXiluwdsBjSGboDEZDEgHU'},
     // SENDERS:  receive front-end | send back-end
     search: (country, city) => ipcRenderer.send('search', country, city),
+    urlExternal:(url) => ipcRenderer.send('urlExternal', url),
     // LISTENERS
     loadStart: () => ipcRenderer.on('loadStart', (e) => {
         document.querySelector('#loadingBox').style.display = 'block';
