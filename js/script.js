@@ -149,10 +149,18 @@ document.addEventListener('DOMContentLoaded',() => {
 
     //Prevent default when successfull submit
     form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    window.ipc.search(countrySelect.value, citySelect.value);
-    showSource(countrySelect.value, citySelect.value);
-    sourceBox.style.display = 'block';
+        e.preventDefault();
+        switch (e.submitter.value) {
+            case 'Load':
+                window.ipc.load(countrySelect.value, citySelect.value);
+                sourceBox.style.display = 'none';
+                break;
+            case 'Search':
+                window.ipc.search(countrySelect.value, citySelect.value);
+                showSource(countrySelect.value, citySelect.value);
+                sourceBox.style.display = 'block';
+                break;
+        }
     });
 
     //Prevent default url click and open in default browser

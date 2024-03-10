@@ -23,6 +23,10 @@ const createWindow = () => {
 app.whenReady().then(() => {
     createWindow();
 
+    ipcMain.on('load', (e, country, city) => {
+        const fileData = fs.readFileSync(path.join(__dirname,`data/${country}-${city}.txt`),'utf-8', (err) => {if(err){console.error('Error reading file or it does not exist: ', err)}});
+        e.sender.send('preRenderTable', false, fileData);
+    })
     ipcMain.on('search', (e, country, city) => {
         const jsFile = require(path.join(__dirname, `node/cities/${country}-${city}.js`));
         jsFile.search(e.sender);

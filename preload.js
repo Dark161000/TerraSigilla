@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld('ipc', {
     //FUNCTIONS
     apiKey: () => {return 'uujpfzzrwGov_clTg2PeXrXiluwdsBjSGboDEZDEgHU'},
     // SENDERS:  receive front-end | send back-end
+    load: (country, city) => ipcRenderer.send('load', country, city),
     search: (country, city) => ipcRenderer.send('search', country, city),
     urlExternal:(url) => ipcRenderer.send('urlExternal', url),
     // LISTENERS

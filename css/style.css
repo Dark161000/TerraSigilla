@@ -56,7 +56,7 @@ header {
 [id="city"] option:not(:first-child) {
     display: none;
 }
-[id="searchBtn"] {
+.btn {
     background: #66BE00;
     border: none;
     border-radius: 0.5rem;
@@ -65,14 +65,14 @@ header {
     color: #FDFDFD;
     font-weight: bolder;
 }
-[id="searchBtn"]:hover {
+.btn:hover {
     background: #008405;
 }
-[id="searchBtn"]:active {
+.btn:active {
     background: #008405;
     box-shadow: inset 8px 8px 20px -2px black;
 }
-[id="searchBtn"]:disabled {
+.btn:disabled {
     background: #ced2ce;
 }
 [id="loadingBox"] {
