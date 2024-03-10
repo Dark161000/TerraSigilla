@@ -152,6 +152,7 @@ document.addEventListener('DOMContentLoaded',() => {
     e.preventDefault();
     window.ipc.search(countrySelect.value, citySelect.value);
     showSource(countrySelect.value, citySelect.value);
+    sourceBox.style.display = 'block';
     });
 
     //Prevent default url click and open in default browser

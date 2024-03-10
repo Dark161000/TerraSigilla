@@ -102,6 +102,9 @@ header {
     position: relative;
     font-weight: bold;
 }
+[id="sourceWrapper"] {
+    display: none;
+}
 
 /*****************MAP VIEW********************/
 [id="map"] {
