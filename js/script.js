@@ -181,10 +181,13 @@ document.addEventListener('DOMContentLoaded',() => {
                 tdData.push(el.innerText);               
             });
         }
+        
         document.querySelector('#form fieldset').setAttribute('disabled', 'disabled');
         document.querySelector('#translateWrapper fieldset').setAttribute('disabled', 'disabled');
+
         window.ipc.translateTable(languageFromSelect.value, languageToSelect.value, thData, 'th');
         window.ipc.translateTable(languageFromSelect.value, languageToSelect.value, tdData, 'td');
+
         setTimeout(() => {
             document.querySelector('#form fieldset').removeAttribute('disabled');
             document.querySelector('#translateWrapper fieldset').removeAttribute('disabled');
