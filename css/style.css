@@ -33,7 +33,6 @@ header {
     padding: 0;
     grid-template-columns: 200px 1fr;
 }
-
 [id="mapResults"] {
     display: flex;
     flex-direction: column;
@@ -45,7 +44,7 @@ header {
     box-shadow: -4px 0px 20px 0px black;
     z-index: 1;
 }
-[id="userInput"] [id="form"] {
+[id="userInput"] :is([id="form"], [id="translateForm"]) {
     padding: 5px 10px;
 }
 [id="userInput"] fieldset {

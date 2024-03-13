@@ -62,6 +62,30 @@
             <div id="sourceWrapper">
                 <p>Source: <a id="sourceLink" href=""></a></p>
             </div>
+            <div id="translateWrapper">
+                <form id="translateForm">
+                    <fieldset>
+                        <legend>Translation Options</legend>
+                        <label for="languageFrom">From:</label>
+                        <select name="languageFrom" id="languageFrom" required>
+                            <option value="" disabled selected>Select a from language</option>
+                            <option value="en">English</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="es">Spanish</option>
+                        </select><br>
+                        <label for="languageTo">To:</label>
+                        <select name="languageTo" id="languageTo" required>
+                            <option value="" disabled selected>Select a to language</option>
+                            <option value="en">English</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="es">Spanish</option>
+                        </select><br>
+                        <input class="btn" type="submit" value="Translate">
+                    </fieldset>
+                </form>
+            </div>
             <div id="darkMode">
                 <label for="darkTheme">Dark Mode</label>
                 <input type="range" name="darkTheme" id="darkTheme" min="1" max="2">

@@ -34,4 +34,8 @@ app.whenReady().then(() => {
     ipcMain.on('urlExternal', (e, url) => {
         shell.openExternal(url);
     })
+    ipcMain.on('translateTable', (e, langFrom, langTo, data, type) => {
+        const nodeScript = require(path.join(__dirname, `node/nodeScripts.js`));
+        nodeScript.translateTable(e.sender, langFrom, langTo, data, type);
+    })
 })

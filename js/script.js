@@ -4,6 +4,9 @@ userInput = document.querySelector('#userInput'),
 countrySelect = document.querySelector('#country'),
 citySelect = document.querySelector('#city'),
 form = document.querySelector('#searchForm'),
+languageFromSelect = document.querySelector('#languageFrom'),
+languageToSelect = document.querySelector('#languageTo'),
+translateForm = document.querySelector('#translateForm'),
 rightSide = document.querySelector('#mapResults'),
 mapViewer = document.querySelector('#map'),
 searchBtn = document.querySelector('#searchBtn'),
@@ -151,16 +154,35 @@ document.addEventListener('DOMContentLoaded',() => {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         switch (e.submitter.value) {
-            case 'Load':
+            case 'Load': //Load previous data
                 window.ipc.load(countrySelect.value, citySelect.value);
                 sourceBox.style.display = 'none';
                 break;
-            case 'Search':
+            case 'Search': //Make a new search
                 window.ipc.search(countrySelect.value, citySelect.value);
                 showSource(countrySelect.value, citySelect.value);
                 sourceBox.style.display = 'block';
                 break;
         }
+    });
+
+    //Prevent default when successfull submit on translation
+    translateForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let thData = [];
+        let tdData = [];
+
+        if (document.querySelector('#dataTable').innerHTML !== '') {
+            document.querySelectorAll('th').forEach( el => {
+                thData.push(el.innerText);
+            });
+            document.querySelectorAll('td').forEach( el => {
+                tdData.push(el.innerText);               
+            });
+        }
+        window.ipc.translateTable(languageFromSelect.value, languageToSelect.value, thData, 'th');
+        window.ipc.translateTable(languageFromSelect.value, languageToSelect.value, tdData, 'td');
     });
 
     //Prevent default url click and open in default browser
@@ -192,4 +214,5 @@ document.addEventListener('DOMContentLoaded',() => {
     window.ipc.preRenderTable();
     window.ipc.appendTable();
     window.ipc.duplicateRow();
+    window.ipc.translationValue();
 });

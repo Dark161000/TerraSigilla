@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld('ipc', {
     load: (country, city) => ipcRenderer.send('load', country, city),
     search: (country, city) => ipcRenderer.send('search', country, city),
     urlExternal:(url) => ipcRenderer.send('urlExternal', url),
+    translateTable: (langFrom, langTo, data, type) => ipcRenderer.send('translateTable', langFrom, langTo, data, type),
     // LISTENERS
     loadStart: () => ipcRenderer.on('loadStart', (e) => {
         document.querySelector('#loadingBox').style.display = 'block';
@@ -78,5 +79,11 @@ contextBridge.exposeInMainWorld('ipc', {
     duplicateRow: () => ipcRenderer.on('duplicateRow', (e, row) => {
         document.querySelectorAll('tr')[row].querySelector('td:nth-child(2)').innerHTML = 'Unchanged'; //unchanged status since it is found
         document.querySelectorAll('tr')[row].querySelector('td:nth-child(2)').setAttribute('class','unchangedRow');
+    }),
+    translationValue: () => ipcRenderer.on('translationValue', (e, translatedWords, type) => {
+        const cells = document.querySelectorAll(type);
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].innerText = translatedWords[i];
+        }
     }),
 });
