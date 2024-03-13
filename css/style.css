@@ -31,7 +31,7 @@ header {
 [id="pageWrapper"] {
     display: grid;
     padding: 0;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 205px 1fr;
 }
 [id="mapResults"] {
     display: flex;
@@ -44,7 +44,7 @@ header {
     box-shadow: -4px 0px 20px 0px black;
     z-index: 1;
 }
-[id="userInput"] :is([id="form"], [id="translateForm"]) {
+[id="userInput"] :is([id="form"], [id="translateWrapper"]) {
     padding: 5px 10px;
 }
 [id="userInput"] fieldset {
