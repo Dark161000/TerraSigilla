@@ -1,7 +1,7 @@
 :root {
     all: unset;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 1rem;
+    font-size: 62.5%;
 }
 
 * {
@@ -12,6 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    font-size: 1.2rem;
 }
 
 /******************HEADER*********************/
@@ -21,7 +22,7 @@ header {
     justify-content: center;
     height: 40px;
     padding: 10px;
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: bold;
     background: #003815;
     color: #FDFDFD;
@@ -65,7 +66,7 @@ header {
     border-radius: 0.5rem;
     width: 75px;
     height: 50px;
-    font-size: 1rem;
+    font-size: 1.6rem;
     color: #FDFDFD;
     font-weight: bolder;
 }
