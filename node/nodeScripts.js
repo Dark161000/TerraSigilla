@@ -5,6 +5,10 @@ path = require('path'),
 gtranslator = new GoogleTranslator(),
 dtranslator = new DeepLTranslator({apiKey: 'cb5ac0a9-ec18-45c6-befe-0f3e3be9a650:fx',});
 
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
 async function findDuplicates(e, filePath, info) {
     const fileData = fs.readFileSync(filePath, "utf-8", (err) => {if (err) {console.error('Error reading file: ', err)}}).split('\n');
     for (let i = 0; i < fileData.length; i++) {
@@ -18,12 +22,20 @@ async function findDuplicates(e, filePath, info) {
 }
 
 async function translateTable(e, langFrom, langTo, data) {
+    await e.send('loadStart');
+    const count = data.length;
+    let currentCount = 0;
     let translatedWords = [];
 
     //Google Translator
     await gtranslator.translateBatch(data, langFrom, langTo)
-                     .then(res => {translatedWords.push(res)})
-                     .catch(err => {console.error(err)});
+                     .then(res => {
+                        translatedWords.push(res);
+
+                        currentCount++;
+                        e.send('progressBarPercent', count, currentCount);
+                     })
+                     .catch(err => {console.error(err);});
     await e.send('translationValue', translatedWords[0]);
 
     //DeepL Translator
@@ -37,6 +49,8 @@ async function translateTable(e, langFrom, langTo, data) {
         }
     }
     await e.send('translationValue', translatedWords);*/
+
+    await e.send('loadEnd', true);
 }
 
 module.exports = {

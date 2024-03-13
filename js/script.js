@@ -178,15 +178,7 @@ document.addEventListener('DOMContentLoaded',() => {
             });
         }
 
-        document.querySelector('#form fieldset').setAttribute('disabled', 'disabled');
-        document.querySelector('#translateWrapper fieldset').setAttribute('disabled', 'disabled');
-
         window.ipc.translateTable(languageFromSelect.value, languageToSelect.value, cellData);
-
-        setTimeout(() => {
-            document.querySelector('#form fieldset').removeAttribute('disabled');
-            document.querySelector('#translateWrapper fieldset').removeAttribute('disabled');
-        },5_000)
     });
 
     //Prevent default url click and open in default browser

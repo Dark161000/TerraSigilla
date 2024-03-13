@@ -15,19 +15,21 @@ contextBridge.exposeInMainWorld('ipc', {
         document.querySelector('#form fieldset').setAttribute('disabled', 'disabled');
         document.querySelector('#translateWrapper fieldset').setAttribute('disabled', 'disabled');
     }),
-    loadEnd: () => ipcRenderer.on('loadEnd', (e) => {
+    loadEnd: () => ipcRenderer.on('loadEnd', (e, isTranslation = false) => {
         document.querySelector('#loadingBox').removeAttribute('style');
         document.querySelector('#innerBar').removeAttribute('style');
         document.querySelector('#outerBar p').innerHTML = '0%';
         document.querySelector('#form fieldset').removeAttribute('disabled');
         document.querySelector('#translateWrapper fieldset').removeAttribute('disabled');
-        document.querySelectorAll('#dataTable td:nth-child(2)').forEach( el => { //Look for not found record in previous data
-            if (el.innerText === '') {
-                el.innerText = 'Not Found';
-                el.setAttribute('class','notFoundRow');
-            }
-        });
-        document.querySelector('#translatedTable').innerHTML = document.querySelector('#dataTable').innerHTML
+        if (!isTranslation) {
+            document.querySelectorAll('#dataTable td:nth-child(2)').forEach( el => { //Look for not found record in previous data
+                if (el.innerText === '') {
+                    el.innerText = 'Not Found';
+                    el.setAttribute('class','notFoundRow');
+                }
+            });
+            document.querySelector('#translatedTable').innerHTML = document.querySelector('#dataTable').innerHTML
+        }
     }),
     progressBarPercent: () => ipcRenderer.on('progressBarPercent', (e, total, current) => {
         const percent = current * 100 / total;
