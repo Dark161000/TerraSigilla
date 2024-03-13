@@ -80,7 +80,7 @@ function tableSort(e, column) {
     table.querySelectorAll('th').forEach(el => {el.innerText = el.innerText.replaceAll('▼','')});
     e.target.innerText += '▼';
     
-    const tbody = table.querySelector('tbody')
+    const tbody = e.target.parentElement.parentElement.parentElement.querySelector('tbody');
     const rows = Array.from(tbody.querySelectorAll('tr'));
 
     // Sort the array based on the content of the selected column
