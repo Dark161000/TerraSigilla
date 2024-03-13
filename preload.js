@@ -19,13 +19,13 @@ contextBridge.exposeInMainWorld('ipc', {
         document.querySelector('#innerBar').removeAttribute('style');
         document.querySelector('#outerBar p').innerHTML = '0%';
         document.querySelector('#form fieldset').removeAttribute('disabled');
-        document.querySelectorAll('#dataTable td:nth-child(2)').forEach( el => {
+        document.querySelectorAll('#dataTable td:nth-child(2)').forEach( el => { //Look for not found record in previous data
             if (el.innerText === '') {
                 el.innerText = 'Not Found';
                 el.setAttribute('class','notFoundRow');
             }
         });
-
+        document.querySelector('#translatedTable').innerHTML = document.querySelector('#dataTable').innerHTML
     }),
     progressBarPercent: () => ipcRenderer.on('progressBarPercent', (e, total, current) => {
         const percent = current * 100 / total;
@@ -35,6 +35,7 @@ contextBridge.exposeInMainWorld('ipc', {
     preRenderTable: () => ipcRenderer.on('preRenderTable', (e, isHeaderOnly, tableData) => {
         let htmlCode = '';
         const table = document.querySelector('#dataTable'),
+        translatedTable = document.querySelector('#translatedTable'),
         data = tableData.replaceAll('"', ''); //Remove all double quotes
 
         if (isHeaderOnly) {
@@ -43,6 +44,7 @@ contextBridge.exposeInMainWorld('ipc', {
             htmlCode += '</tr></thead><tbody></tbody>';
 
             table.innerHTML = htmlCode;
+            translatedTable.innerHTML = htmlCode;
         } else {
             const dataRows = data.split('\n');
 
@@ -62,16 +64,17 @@ contextBridge.exposeInMainWorld('ipc', {
             htmlCode += '</tbody>';
 
             table.innerHTML = htmlCode;
+            translatedTable.innerHTML = htmlCode;
         }
     }),
     appendTable: () => ipcRenderer.on('appendTable', (e, rowInfo) => {
         let htmlCode = '';
         const table = document.querySelector('#dataTable tbody'),
         data = rowInfo.replaceAll('"', '').replaceAll('\n', ''), //Remove all double quotes
-        lRowNum = document.querySelector('#dataTable tbody tr:last-child td:first-child') === null ? 0 : Number(document.querySelector('#dataTable tbody tr:last-child td:first-child').innerText);
+        lRowNum = document.querySelector('#dataTable tbody tr:last-child td:first-child') === null ? 0 : Number(document.querySelector('#dataTable tbody tr:last-child td:first-child').innerText); //Number 0 for first row
 
-        htmlCode += `<tr><td>${lRowNum + 1}</td><td class="newRow">New!</td>`;
-        data.replace('\n','').split('::').forEach(el => htmlCode += `<td>${el}</td>`);
+        htmlCode += `<tr><td>${lRowNum + 1}</td><td class="newRow">New!</td>`; //Add 'new' status since it doesn't exist in previous data
+        data.replace('\n','').split('::').forEach(el => htmlCode += `<td>${el}</td>`); //Add a number from last row
         htmlCode += '</tr>';
 
         table.innerHTML += htmlCode;
@@ -81,9 +84,11 @@ contextBridge.exposeInMainWorld('ipc', {
         document.querySelectorAll('tr')[row].querySelector('td:nth-child(2)').setAttribute('class','unchangedRow');
     }),
     translationValue: () => ipcRenderer.on('translationValue', (e, translatedWords, type) => {
-        const cells = document.querySelectorAll(type);
+        const cells = document.querySelectorAll(`#translatedTable ${type}`); //Apply to translated table and hide original table
         for (let i = 0; i < cells.length; i++) {
             cells[i].innerText = translatedWords[i];
         }
+        document.querySelector('#dataTable').style.display = 'none';
+        document.querySelector('#translatedTable').style.display = 'block';
     }),
 });

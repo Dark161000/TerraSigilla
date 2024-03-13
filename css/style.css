@@ -119,6 +119,9 @@ header {
 [id="results"] {
     overflow: auto;
 }
+[id="translatedTable"] {
+    display: none;
+}
 [id="results"] table {
     border-collapse: collapse;
     width: 100%;
