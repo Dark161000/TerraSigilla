@@ -170,23 +170,18 @@ document.addEventListener('DOMContentLoaded',() => {
     translateForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        let thData = [];
-        let tdData = [];
+        let cellData = [];
 
         if (document.querySelector('#dataTable').innerHTML !== '') {
-            document.querySelectorAll('th').forEach( el => {
-                thData.push(el.innerText);
-            });
-            document.querySelectorAll('td').forEach( el => {
-                tdData.push(el.innerText);               
+            document.querySelectorAll('#dataTable :is(th,td)').forEach( el => {
+                cellData.push(el.innerText);
             });
         }
-        
+
         document.querySelector('#form fieldset').setAttribute('disabled', 'disabled');
         document.querySelector('#translateWrapper fieldset').setAttribute('disabled', 'disabled');
 
-        window.ipc.translateTable(languageFromSelect.value, languageToSelect.value, thData, 'th');
-        window.ipc.translateTable(languageFromSelect.value, languageToSelect.value, tdData, 'td');
+        window.ipc.translateTable(languageFromSelect.value, languageToSelect.value, cellData);
 
         setTimeout(() => {
             document.querySelector('#form fieldset').removeAttribute('disabled');

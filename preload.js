@@ -8,7 +8,7 @@ contextBridge.exposeInMainWorld('ipc', {
     load: (country, city) => ipcRenderer.send('load', country, city),
     search: (country, city) => ipcRenderer.send('search', country, city),
     urlExternal:(url) => ipcRenderer.send('urlExternal', url),
-    translateTable: (langFrom, langTo, data, type) => ipcRenderer.send('translateTable', langFrom, langTo, data, type),
+    translateTable: (langFrom, langTo, data) => ipcRenderer.send('translateTable', langFrom, langTo, data),
     // LISTENERS
     loadStart: () => ipcRenderer.on('loadStart', (e) => {
         document.querySelector('#loadingBox').style.display = 'block';
@@ -85,8 +85,8 @@ contextBridge.exposeInMainWorld('ipc', {
         document.querySelectorAll('tr')[row].querySelector('td:nth-child(2)').innerHTML = 'Unchanged'; //unchanged status since it is found
         document.querySelectorAll('tr')[row].querySelector('td:nth-child(2)').setAttribute('class','unchangedRow');
     }),
-    translationValue: () => ipcRenderer.on('translationValue', (e, translatedWords, type) => {
-        const cells = document.querySelectorAll(`#translatedTable ${type}`); //Apply to translated table and hide original table
+    translationValue: () => ipcRenderer.on('translationValue', (e, translatedWords) => {
+        const cells = document.querySelectorAll(`#translatedTable :is(th, td)`); //Apply to translated table and hide original table
         for (let i = 0; i < cells.length; i++) {
             cells[i].innerText = translatedWords[i];
         }
