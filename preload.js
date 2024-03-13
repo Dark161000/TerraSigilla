@@ -13,12 +13,14 @@ contextBridge.exposeInMainWorld('ipc', {
     loadStart: () => ipcRenderer.on('loadStart', (e) => {
         document.querySelector('#loadingBox').style.display = 'block';
         document.querySelector('#form fieldset').setAttribute('disabled', 'disabled');
+        document.querySelector('#translateWrapper fieldset').setAttribute('disabled', 'disabled');
     }),
     loadEnd: () => ipcRenderer.on('loadEnd', (e) => {
         document.querySelector('#loadingBox').removeAttribute('style');
         document.querySelector('#innerBar').removeAttribute('style');
         document.querySelector('#outerBar p').innerHTML = '0%';
         document.querySelector('#form fieldset').removeAttribute('disabled');
+        document.querySelector('#translateWrapper fieldset').removeAttribute('disabled');
         document.querySelectorAll('#dataTable td:nth-child(2)').forEach( el => { //Look for not found record in previous data
             if (el.innerText === '') {
                 el.innerText = 'Not Found';
