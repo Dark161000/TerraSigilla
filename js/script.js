@@ -170,15 +170,16 @@ document.addEventListener('DOMContentLoaded',() => {
     translateForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        let cellData = [];
-
-        if (document.querySelector('#dataTable').innerHTML !== '') {
+        if (e.submitter.value === 'Translate' && document.querySelector('#dataTable').innerHTML !== '') {
+            let cellData = [];
             document.querySelectorAll('#dataTable :is(th,td)').forEach( el => {
                 cellData.push(el.innerText);
             });
+            window.ipc.translateTable(languageFromSelect.value, languageToSelect.value, cellData);
+        } else if (e.submitter.value === 'Original' && document.querySelector('#dataTable').innerHTML !== '') {
+            document.querySelector('#translatedTable').style.display = 'none';
+            document.querySelector('#dataTable').style.display = 'block';
         }
-
-        window.ipc.translateTable(languageFromSelect.value, languageToSelect.value, cellData);
     });
 
     //Prevent default url click and open in default browser

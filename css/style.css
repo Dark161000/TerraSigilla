@@ -56,7 +56,7 @@ header {
 [id="city"] option:not(:first-child) {
     display: none;
 }
-[id = "btnWrapper"] {
+.btnWrapper {
     display: flex;
     justify-content: space-between;
 }

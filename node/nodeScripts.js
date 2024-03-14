@@ -49,9 +49,9 @@ async function translateTable(e, langFrom, langTo, data, apiK) {
             translatedWords.push(data[i]);
         }
     }
-    await e.send('translationValue', translatedWords);
+    await e.send('translationValue', translatedWords);*/
 
-    await e.send('loadEnd', true);*/
+    await e.send('loadEnd', true);
 }
 
 module.exports = {
