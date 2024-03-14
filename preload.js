@@ -3,7 +3,7 @@ const { contextBridge, ipcRenderer} = require('electron');
 contextBridge.exposeInMainWorld('ipc', {
     ipcRenderer: ipcRenderer,
     //FUNCTIONS
-    apiKey: () => {return 'uujpfzzrwGov_clTg2PeXrXiluwdsBjSGboDEZDEgHU'},
+    apiKey: () => {return process.env.API_KEY_HERE},
     // SENDERS:  receive front-end | send back-end
     load: (country, city) => ipcRenderer.send('load', country, city),
     search: (country, city) => ipcRenderer.send('search', country, city),

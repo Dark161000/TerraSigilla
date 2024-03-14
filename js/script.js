@@ -20,7 +20,7 @@ platform = '';
 //Show HERE Map
 function hereMap() {
     platform = new H.service.Platform({
-        'apikey': window.ipc.apiKey()
+        'apikey': window.ipc.apiKey(),
     });
 
     const defaultLayers = platform.createDefaultLayers();

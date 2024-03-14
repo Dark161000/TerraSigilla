@@ -39,4 +39,4 @@ app.whenReady().then(() => {
         const nodeScript = require(path.join(__dirname, `node/nodeScripts.js`));
         nodeScript.translateTable(e.sender, langFrom, langTo, data, process.env.API_KEY_DEEPL);
     });
-})
+});
