@@ -13,7 +13,7 @@ async function getData(e) {
     let geoLine = '';
 
     //get data from js file
-    http.get("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BAUSTELLENPKTOGD&srsName=EPSG:4326&outputFormat=text/javascript&format_options=callback:wienmapBAUSTELLENPKTOGD.callback&charset=UTF-8&EXCEPTIONS=text/javascript", (response) => {
+    const req1 = http.get("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BAUSTELLENPKTOGD&srsName=EPSG:4326&outputFormat=text/javascript&format_options=callback:wienmapBAUSTELLENPKTOGD.callback&charset=UTF-8&EXCEPTIONS=text/javascript", (response) => {
         let data = '';
 
         response.on('data', (chunk) => {
@@ -24,7 +24,18 @@ async function getData(e) {
         });
     });
 
-    http.get("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BAUSTELLENLINOGD&srsName=EPSG:4326&outputFormat=text/javascript&format_options=callback:wienmapBAUSTELLENLINOGD.callback&charset=UTF-8&EXCEPTIONS=text/javascript", (response) => {
+    //Throw error if error found
+    req1.on('error', (err) => {
+        throw new Error(`${err}`);
+    });
+    //Throw error if site not found
+    req1.on('response', (res) => {
+        if (res.statusCode === 404) {
+            throw new Error(`Website not responding. Please try again later.`);
+        }
+    });
+
+    const req2 = http.get("http://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BAUSTELLENLINOGD&srsName=EPSG:4326&outputFormat=text/javascript&format_options=callback:wienmapBAUSTELLENLINOGD.callback&charset=UTF-8&EXCEPTIONS=text/javascript", (response) => {
         let data = '';
 
         response.on('data', (chunk) => {
@@ -33,6 +44,17 @@ async function getData(e) {
         response.on('end', () => {
             geoLine = data.replaceAll('wienmapBAUSTELLENLINOGD.callback(', '').replaceAll('})', '}');
         });
+    });
+
+    //Throw error if error found
+    req2.on('error', (err) => {
+        throw new Error(`${err}`);
+    });
+    //Throw error if site not found
+    req2.on('response', (res) => {
+        if (res.statusCode === 404) {
+            throw new Error(`Website not responding. Please try again later.`);
+        }
     });
 
     while (geoLine === '' || geoPoint === '') {

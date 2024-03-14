@@ -15,7 +15,7 @@ async function getData(e) {
     neCoords = '45.61924764324816,8.193733480970895';
 
     //Get data from XHR
-    https.get(`https://www.cciss.it/web/cciss/situazione-della-viabilita?p_p_id=2_WAR_ccissservizimapsportlet&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_cacheability=cacheLevelPage&p_p_col_id=column-2&p_p_col_pos=3&p_p_col_count=4&_2_WAR_ccissservizimapsportlet_so=${soCoords}&_2_WAR_ccissservizimapsportlet_ne=${neCoords}&_2_WAR_ccissservizimapsportlet_z=17`, (response) => {
+    const req = https.get(`https://www.cciss.it/web/cciss/situazione-della-viabilita?p_p_id=2_WAR_ccissservizimapsportlet&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_cacheability=cacheLevelPage&p_p_col_id=column-2&p_p_col_pos=3&p_p_col_count=4&_2_WAR_ccissservizimapsportlet_so=${soCoords}&_2_WAR_ccissservizimapsportlet_ne=${neCoords}&_2_WAR_ccissservizimapsportlet_z=17`, (response) => {
         let data = '';
 
         response.on('data', (chunk) => {
@@ -24,6 +24,21 @@ async function getData(e) {
         response.on('end', () => {
             apiData = data.replaceAll('wienmapBAUSTELLENPKTOGD.callback(', '').replaceAll('})', '}');
         });
+    });
+
+    //Throw error if error found
+    req.on('error', (err) => {
+        if (err.message === 'unable to get local issuer certificate') {
+            throw new Error(`If you are using zscaler, close it and try again \n ${err}`);
+        } else {
+            throw new Error(`${err}`);
+        }
+    });
+    //Throw error if site not found
+    req.on('response', (res) => {
+        if (res.statusCode === 404) {
+            throw new Error(`Website not responding. Please try again later.`);
+        }
     });
 
     while (apiData === '') {

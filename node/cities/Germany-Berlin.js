@@ -13,7 +13,7 @@ async function getData(e) {
     let apiData = '';
 
     //Get data from json
-    https.get(`https://api.viz.berlin.de/daten/baustellen_sperrungen.json`, (response) => {
+    const req = https.get(`https://api.viz.berlin.de/daten/baustellen_sperrungen.json`, (response) => {
         let data = '';
 
         response.on('data', (chunk) => {
@@ -22,6 +22,21 @@ async function getData(e) {
         response.on('end', () => {
             apiData = data.replaceAll('wienmapBAUSTELLENPKTOGD.callback(', '').replaceAll('})', '}');
         });
+    });
+
+    //Throw error if error found
+    req.on('error', (err) => {
+        if (err.message === 'unable to get local issuer certificate') {
+            throw new Error(`If you are using zscaler, close it and try again \n ${err}`);
+        } else {
+            throw new Error(`${err}`);
+        }
+    });
+    //Throw error if site not found
+    req.on('response', (res) => {
+        if (res.statusCode === 404) {
+            throw new Error(`Website not responding. Please try again later.`);
+        }
     });
 
     while (apiData === '') {
