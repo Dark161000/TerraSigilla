@@ -2,8 +2,8 @@ const fs = require('fs'),
 path = require('path'),
 { GoogleTranslator } = require('@translate-tools/core/translators/GoogleTranslator'),
 { DeepLTranslator } = require('@translate-tools/core/translators/DeepLTranslator'),
-gtranslator = new GoogleTranslator(),
-dtranslator = new DeepLTranslator({apiKey: 'cb5ac0a9-ec18-45c6-befe-0f3e3be9a650:fx',});
+gtranslator = new GoogleTranslator();
+
 
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
@@ -21,7 +21,7 @@ async function findDuplicates(e, filePath, info) {
     return false;
 }
 
-async function translateTable(e, langFrom, langTo, data) {
+async function translateTable(e, langFrom, langTo, data, apiK) {
     await e.send('loadStart');
     const count = data.length;
     let currentCount = 0;
@@ -39,7 +39,8 @@ async function translateTable(e, langFrom, langTo, data) {
     await e.send('translationValue', translatedWords[0]);
 
     //DeepL Translator
-    /*const regex = /^[0-9!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~\s]*$/;
+    /*const regex = /^[0-9!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~\s]*$/,
+    dtranslator = new DeepLTranslator({apiKey: apiK,});
     for (let i = 0; i < data.length; i++) {
         if (!regex.test(data[i])) { //If there is not only numbers or symbols
             await dtranslator.translate(data[i], langFrom, langTo)
@@ -48,9 +49,9 @@ async function translateTable(e, langFrom, langTo, data) {
             translatedWords.push(data[i]);
         }
     }
-    await e.send('translationValue', translatedWords);*/
+    await e.send('translationValue', translatedWords);
 
-    await e.send('loadEnd', true);
+    await e.send('loadEnd', true);*/
 }
 
 module.exports = {
