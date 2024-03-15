@@ -28,7 +28,7 @@ function hereMap() {
 
     // Instantiate (and display) a map object:
     map = new H.Map(document.querySelector('#map'), defaultLayers.vector.normal.map, {
-        zoom: 2,
+        zoom: 3,
         center: { lat: 21, lng: -38 },
         pixelRatio: window.devicePixelRatio || 1
     });
@@ -155,6 +155,7 @@ function showSource(country, city) {
 
 //Apply styles according to window size
 function itemResize() {
+    //Get the height and width of all unchanged elements
     const screenSizeW = window.innerWidth,
     userInputW = userInput.offsetWidth,
     screenSizeH = window.innerHeight,
@@ -162,10 +163,15 @@ function itemResize() {
     headerH = header.offsetHeight,
     footerH = footer.offsetHeight;
 
+    //Set size to both sides
     rightSide.style.maxWidth = `${screenSizeW-userInputW}px`;
     userInput.style.height = `${screenSizeH - headerH}px`;
-    mapViewer.style.height = `${(screenSizeH - headerH - footerH - dividerH)/2}px`;
-    table.style.height = `${(screenSizeH - headerH - footerH - dividerH)/2}px`;
+    
+    //Set the size of the map and table according to the size of the window and actual size of both elements, prioritizing the map size
+    const percentMap = `${(screenSizeH - headerH - footerH - dividerH - table.offsetHeight)/(screenSizeH * 0.01)}`;
+    mapViewer.style.height = `${percentMap}vh`;
+    const percentTable = `${(screenSizeH - headerH - footerH - dividerH - mapViewer.offsetHeight)/(screenSizeH * 0.01)}`;
+    table.style.height = `${percentTable}vh`;
 }
 
 itemResize();
@@ -203,6 +209,10 @@ document.addEventListener('DOMContentLoaded',() => {
                 showSource(countrySelect.value, citySelect.value);
                 sourceBox.style.display = 'block';
                 break;
+        }
+        if (table.offsetHeight <= 50) {//If table is hidden, change size
+            table.style.height = '15vh';
+            itemResize();
         }
     });
 
