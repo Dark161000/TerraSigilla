@@ -181,6 +181,7 @@ function dragDivider() {
     let offsetY = 0;
 
     divider.addEventListener('mousedown', (e) => {
+        e.preventDefault();
         isDragging = true;
         offsetY = e.clientY - divider.getBoundingClientRect().top;
     });
