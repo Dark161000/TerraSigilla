@@ -9,6 +9,7 @@ languageToSelect = document.querySelector('#languageTo'),
 translateForm = document.querySelector('#translateForm'),
 rightSide = document.querySelector('#mapResults'),
 mapViewer = document.querySelector('#map'),
+divider = document.querySelector('#divider'),
 searchBtn = document.querySelector('#searchBtn'),
 table = document.querySelector('#results'),
 sourceBox = document.querySelector('#sourceWrapper'),
@@ -156,14 +157,15 @@ function showSource(country, city) {
 function itemResize() {
     const screenSizeW = window.innerWidth,
     userInputW = userInput.offsetWidth,
-    screenSizeH =window.innerHeight,
+    screenSizeH = window.innerHeight,
+    dividerH = divider.offsetHeight,
     headerH = header.offsetHeight,
     footerH = footer.offsetHeight;
 
     rightSide.style.maxWidth = `${screenSizeW-userInputW}px`;
     userInput.style.height = `${screenSizeH - headerH}px`;
-    mapViewer.style.height = `${(screenSizeH - headerH - footerH)/2}px`;
-    table.style.height = `${(screenSizeH - headerH - footerH)/2}px`;
+    mapViewer.style.height = `${(screenSizeH - headerH - footerH - dividerH)/2}px`;
+    table.style.height = `${(screenSizeH - headerH - footerH - dividerH)/2}px`;
 }
 
 itemResize();

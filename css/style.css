@@ -123,6 +123,19 @@ header {
     margin: 25px;
 }
 
+/*****************DIVIDER*********************/
+[id="divider"] {
+    height: 3px;
+    background-color: #969696;
+    transition: 0.2s ease-in-out;
+}
+[id="divider"]:hover {
+    cursor: row-resize;
+    background-color: #66BE00;
+    box-shadow: #03f32e 0px 0px 5px 1px;
+    z-index: 1;
+}
+
 /*****************RESULTS*********************/
 [id="results"] {
     overflow: auto;
