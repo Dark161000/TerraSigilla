@@ -114,6 +114,13 @@ header {
 /*****************MAP VIEW********************/
 [id="map"] {
     width: 100%;
+    position: relative;
+}
+
+.searchInput {
+    position: absolute;
+    top: 0;
+    margin: 25px;
 }
 
 /*****************RESULTS*********************/

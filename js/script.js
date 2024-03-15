@@ -34,6 +34,43 @@ function hereMap() {
     window.addEventListener('resize', () => map.getViewPort().resize());
     const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     const ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
+
+    // Create input for search
+    const searchInput = document.createElement('input')
+    searchInput.placeholder = 'Search for a location...';
+    searchInput.setAttribute('class', 'searchInput');
+    searchInput.addEventListener('keydown', handleSearch);
+
+    // Add the search input to the map container
+    const mapContainer = document.querySelector('#map');
+    mapContainer.appendChild(searchInput);
+}
+
+function handleSearch(e) {
+    if (e.key === 'Enter') {
+        const searchTerm = e.target.value;
+        const service = platform.getSearchService();
+        const textRegex = /^[a-zA-ZÀ-ȕ0-9\s!@#$%^&*(),.?":{}|<>]+$/;
+        const coordinatesRegex = /^\s*(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\s*$/;
+
+        if (textRegex.test(searchTerm)) {
+            map.removeObjects(map.getObjects());
+            service.geocode({
+                q: searchTerm
+            }, (result) => {
+                // Add a marker for each location found
+                result.items.forEach((item) => {
+                    const marker = new H.map.Marker(item.position);
+                    map.addObject(marker);
+                    map.setCenter(item.position);
+                });
+            }, alert);
+        } else if (coordinatesRegex.test(searchTerm)) {
+            focusCoordsMap(searchTerm);
+        } else {
+            console.log('unkown');
+        }
+    }
 }
 
 //Move map to location from selected dropdown
