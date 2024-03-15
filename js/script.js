@@ -63,6 +63,7 @@ function focusCoordsMap(coords) {
     map.setZoom(17);
 }
 
+//Show the lineString on map when selecting a row from the table
 function lineStringMap(lineStringText) {
     const lineStringArray = lineStringText.replaceAll(' ', '').split(';');
     let lineString = new H.geo.LineString();
