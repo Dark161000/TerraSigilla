@@ -43,7 +43,7 @@ header {
 [id="userInput"] {
     background: #FDFDFD;
     box-shadow: -4px 0px 20px 0px black;
-    z-index: 1;
+    z-index: 3;
 }
 [id="userInput"] :is([id="form"], [id="translateWrapper"]) {
     padding: 5px 10px;
@@ -133,12 +133,13 @@ header {
     cursor: row-resize;
     background-color: #66BE00;
     box-shadow: #66BE00 0px 0px 5px 1px;
-    z-index: 1;
+    z-index: 2;
 }
 
 /*****************RESULTS*********************/
 [id="results"] {
     overflow: auto;
+    z-index: 1;
 }
 [id="translatedTable"] {
     display: none;
