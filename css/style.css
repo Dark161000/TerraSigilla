@@ -1,7 +1,7 @@
 :root {
     all: unset;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 1rem;
+    font-size: 62.5%;
 }
 
 * {
@@ -11,6 +11,8 @@
 body {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    font-size: 1.2rem;
 }
 
 /******************HEADER*********************/
@@ -20,7 +22,7 @@ header {
     justify-content: center;
     height: 40px;
     padding: 10px;
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: bold;
     background: #003815;
     color: #FDFDFD;
@@ -30,9 +32,8 @@ header {
 [id="pageWrapper"] {
     display: grid;
     padding: 0;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 205px 1fr;
 }
-
 [id="mapResults"] {
     display: flex;
     flex-direction: column;
@@ -44,7 +45,7 @@ header {
     box-shadow: -4px 0px 20px 0px black;
     z-index: 1;
 }
-[id="userInput"] div {
+[id="userInput"] :is([id="form"], [id="translateWrapper"]) {
     padding: 5px 10px;
 }
 [id="userInput"] fieldset {
@@ -55,34 +56,83 @@ header {
 [id="city"] option:not(:first-child) {
     display: none;
 }
-[id="searchBtn"] {
+.btnWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.btn {
     background: #66BE00;
     border: none;
     border-radius: 0.5rem;
+    width: 75px;
     height: 50px;
-    font-size: 1rem;
+    font-size: 1.6rem;
     color: #FDFDFD;
     font-weight: bolder;
 }
-[id="searchBtn"]:hover {
+.btn:hover {
     background: #008405;
 }
-[id="searchBtn"]:active {
+.btn:active {
     background: #008405;
     box-shadow: inset 8px 8px 20px -2px black;
+}
+.btn:disabled {
+    background: #ced2ce;
+}
+[id="loadingBox"] {
+    display: none;
+    padding: 8px;
+    text-align: center;
+}
+[id="loadingGif"] {
+    width: 50%;
+}
+[id="outerBar"] {
+    padding: 0;
+    height: 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+[id="innerBar"] {
+    margin: 2px 2px;
+    position: absolute;
+    height: 16px;
+    width: 0px; /*176px MAX*/
+    border-radius: 3px;
+    background: linear-gradient(340deg, #66BE00, #f5f2f2);
+}
+[id="outerBar"] p {
+    margin: 2px 2px;
+    position: relative;
+    font-weight: bold;
+}
+[id="sourceWrapper"] {
+    display: none;
 }
 
 /*****************MAP VIEW********************/
 [id="map"] {
     width: 100%;
+    position: relative;
+}
+
+.searchInput {
+    position: absolute;
+    top: 0;
+    margin: 25px;
 }
 
 /*****************RESULTS*********************/
 [id="results"] {
     overflow: auto;
 }
+[id="translatedTable"] {
+    display: none;
+}
 [id="results"] table {
     border-collapse: collapse;
+    width: 100%;
 }
 [id="results"] :is(table td, table th) {
     padding: 2px 5px;
@@ -92,6 +142,12 @@ header {
 [id="results"] thead tr {
     background:#008405;
     color: #FDFDFD;
+    position: sticky;
+    top: 0;
+}
+[id="results"] thead th:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
 [id="results"] tbody tr:nth-child(odd) {
     background:#FDFDFD;
@@ -102,6 +158,18 @@ header {
 [id="results"] tbody tr:hover {
     background:#DBD0CB;
     cursor: pointer;
+}
+.newRow {
+    color: #335c1b;
+    font-weight: bold;
+}
+.unchangedRow {
+    color: #c2ae00;
+    font-weight: bold;
+}
+.notFoundRow {
+    color: #bb0000;
+    font-weight: bold;
 }
 /******************FOOTER*********************/
 footer {

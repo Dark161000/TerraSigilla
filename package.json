@@ -1,0 +1,38 @@
+{
+  "name": "terra-sigilla",
+  "version": "1.0.0",
+  "description": "App to find out closed roads.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dark161000/TerraSigilla.git"
+  },
+  "keywords": [
+    "closed",
+    "roads",
+    "web",
+    "scraping",
+    "europe",
+    "america"
+  ],
+  "author": "Dark161000",
+  "license": "GNU Affero General Public License v3.0",
+  "bugs": {
+    "url": "https://github.com/Dark161000/TerraSigilla/issues"
+  },
+  "homepage": "https://github.com/Dark161000/TerraSigilla#readme",
+  "devDependencies": {
+    "electron": "^29.1.0"
+  },
+  "dependencies": {
+    "@translate-tools/core": "^1.0.0",
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.5",
+    "google-translate-api": "^2.3.0",
+    "jsdom": "^24.0.0",
+    "puppeteer": "^22.3.0"
+  }
+}

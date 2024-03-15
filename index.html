@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terra Sigilla</title>
     <link rel="stylesheet" href="css/style.css">
+    <!--HERE LIBRARY↓-->
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <!--HERE LIBRARY↑-->
     <script src="js/country.js"></script>
     <script src="js/script.js" defer></script>
 </head>
@@ -20,179 +27,80 @@
                         <select name="country" id="country" required>
                             <option value="" disabled selected>Select a country</option>
                             <option value="Austria">Austria</option>
+                            <option value="Germany">Germany</option>
                             <option value="Italy">Italy</option>
                         </select><br>
                         <label for="city">City:</label>
                         <select name="city" id="city" required>
                             <option value="" disabled selected>Select a city</option>
-                            <option value="Salzburg" country="Austria">Salzburg</option>
+                            <option value="Vienna" country="Austria">Vienna</option>
+                            <option value="Berlin" country="Germany">Berlin</option>
+                            <option value="CityofSanMarino" country="Italy">City of San Marino</option>
+                            <option value="Florence" country="Italy">Florence</option>
+                            <option value="Milan" country="Italy">Milan</option>
+                            <option value="Naples" country="Italy">Naples</option>
+                            <option value="Palermo" country="Italy">Palermo</option>
                             <option value="Rome" country="Italy">Rome</option>
+                            <option value="Turin" country="Italy">Turin</option>
                         </select><br>
-                        <input id="searchBtn" type="submit" value="Search">
+                        <div class="btnWrapper">
+                            <input id="loadBtn" class="btn" type="submit" value="Load">
+                            <input id="searchBtn" class="btn" type="submit" value="Search">
+                        </div>
                     </fieldset>
                 </form>
             </div>
             <div id="searchProgress"></div>
-            <div id="darkMode">
+            <div id="translateWrapper">
+                <form id="translateForm">
+                    <fieldset>
+                        <legend>Translation Options</legend>
+                        <label for="languageFrom">From:</label>
+                        <select name="languageFrom" id="languageFrom" required>
+                            <option value="" disabled selected>Select a from language</option>
+                            <option value="en">English</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="es">Spanish</option>
+                        </select><br>
+                        <label for="languageTo">To:</label>
+                        <select name="languageTo" id="languageTo" required>
+                            <option value="" disabled selected>Select a to language</option>
+                            <option value="en">English</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="es">Spanish</option>
+                        </select><br>
+                        <div class="btnWrapper">
+                            <input class="btn" type="submit" value="Original">
+                            <input class="btn" type="submit" value="Translate">
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div id="loadingBox">
+                <img id="loadingGif" src="img/loading.svg" alt="loading">
+                <p>Obtaining data...</p>
+                <div id="outerBar">
+                    <div id="innerBar"></div>
+                    <p>0%</p>
+                </div>
+            </div>
+            <div id="sourceWrapper">
+                <p>Source: <a id="sourceLink" href=""></a></p>
+            </div>
+            <div id="darkMode" style="display: none;">
                 <label for="darkTheme">Dark Mode</label>
                 <input type="range" name="darkTheme" id="darkTheme" min="1" max="2">
             </div>
         </section>
         <div id="mapResults">
-            <iframe id="map" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?hl=en&q=&t=&z=1&ie=UTF8&iwloc=B&output=embed"></iframe>
+            <div id="map"></div>
             <section id="results">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>desc</th>
-                            <th>place</th>
-                            <th>coordinates</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae culpa porro eum ex sit veritatis? Perspiciatis porro sapiente expedita cum qui tempore culpa, aperiam illum, impedit assumenda itaque quo voluptate!</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, ipsa odit eaque quasi voluptate suscipit obcaecati sapiente qui, nobis repellat nemo animi eligendi inventore aut optio corporis, tempora veniam placeat!</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                        <tr>
-                            <td>0001</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, architecto pariatur sapiente</td>
-                            <td>Ohio</td>
-                            <td>21.128163004513944, -101.70792874633774</td>
-                        </tr>
-                    </tbody>                    
-                </table>
+                <table id="dataTable"></table>
+                <table id="translatedTable"></table>
             </section>
-            <footer>Created By Dark161000</footer>
+            <footer>Created By Zermeño, Leonardo</footer>
         </div>      
     </div>
 </body>
