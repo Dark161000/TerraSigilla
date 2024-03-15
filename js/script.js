@@ -176,8 +176,48 @@ function itemResize() {
 
 itemResize();
 
+function dragDivider() {
+    let isDragging = false;
+    let offsetY = 0;
+
+    divider.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetY = e.clientY - divider.getBoundingClientRect().top;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            const screenSizeH = window.innerHeight,
+            dividerH = divider.offsetHeight,
+            headerH = header.offsetHeight,
+            footerH = footer.offsetHeight,
+            minY = headerH,
+            maxY = screenSizeH - dividerH - footerH;
+            
+            if (e.clientY <= minY) { //If dragging is after header, map will be hidden
+                mapViewer.style.height = '0';
+                table.style.height = `${screenSizeH - dividerH - headerH - footerH}px`;
+            } else if (e.clientY >= maxY) { //If dragging is below divider/footer, table will be hidden
+                mapViewer.style.height = `${screenSizeH - dividerH - headerH - footerH}px`;
+                table.style.height = '0';
+            } else {
+                mapViewer.style.height = `${e.clientY - headerH}px`;
+                table.style.height = `${screenSizeH - headerH - mapViewer.offsetHeight - dividerH - footerH}px`;
+            }
+            map.getViewPort().resize();
+        } 
+    });
+
+    document.addEventListener('mouseup', (e) => {
+        isDragging = false;
+        itemResize();
+    });
+}
+
 document.addEventListener('DOMContentLoaded',() => {
+    //Initiate functions
     window.addEventListener('resize', itemResize);
+    dragDivider();
     hereMap();
 
     //Focus country in map
